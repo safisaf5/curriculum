@@ -42,6 +42,8 @@ export interface Project {
   technologies: string[];
   year: string;
   icon?: string;
+  featured?: boolean;
+  link?: string;
 }
 
 export interface Skill {
