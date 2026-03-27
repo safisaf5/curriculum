@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Globe } from 'lucide-react';
+import { Menu, X, Globe, Moon, Sun } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -8,154 +8,137 @@ interface NavigationProps {
   onSectionChange: (section: string) => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ activeSection, onSectionChange }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+const navIds = ['about', 'services', 'projects', 'experience', 'skills', 'contact'];
 
-  const navigationItems = [
-    { id: 'home', label: t('nav.home') },
-    { id: 'about', label: t('nav.about') },
-    { id: 'experience', label: t('nav.experience') },
-    { id: 'projects', label: t('nav.projects') },
-    { id: 'skills', label: t('nav.skills') },
-    { id: 'media', label: t('nav.media') },
-    { id: 'contact', label: t('nav.contact') },
-  ];
+const Navigation: React.FC<NavigationProps> = ({ activeSection, onSectionChange }) => {
+  const [isScrolled, setIsScrolled]   = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const { language, setLanguage, t }  = useLanguage();
+  const { theme, toggleTheme }        = useTheme();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleNavClick = (sectionId: string) => {
-    onSectionChange(sectionId);
-    setIsMenuOpen(false);
-  };
-
-  const toggleLanguage = () => {
-    setLanguage(language === 'fr' ? 'en' : 'fr');
+  const handleNav = (id: string) => {
+    onSectionChange(id);
+    setIsMobileOpen(false);
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' 
-        : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-700/60 shadow-sm'
+          : 'bg-transparent'
+      }`}
+    >
+      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
-          <div className="flex-shrink-0">
-            <button
-              onClick={() => handleNavClick('home')}
-              className="text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              Safwan Abdirahman
-            </button>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeSection === item.id
-                      ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+          <button
+            onClick={() => handleNav('home')}
+            className="flex items-center gap-2.5 group"
+            aria-label="Go to top"
+          >
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-md shadow-brand-500/30 group-hover:shadow-brand-500/50 transition-shadow">
+              <span className="text-white font-bold text-sm tracking-tight">SA</span>
             </div>
-          </div>
+            <span className="hidden sm:block font-bold text-slate-900 dark:text-white text-lg">
+              Safwan<span className="text-brand-600">.</span>
+            </span>
+          </button>
 
-          {/* Controls */}
-          <div className="hidden md:flex items-center space-x-2">
-            {/* Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center px-3 py-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              title={t('common.language')}
-            >
-              <Globe className="h-4 w-4 mr-1" />
-              <span className="text-sm font-medium min-w-[24px]">
-                {language.toUpperCase()}
-              </span>
-            </button>
-
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              title={theme === 'light' ? t('common.darkMode') : t('common.lightMode')}
-            >
-              {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-            </button>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
-            {/* Mobile Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center px-2 py-1 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              <Globe className="h-4 w-4 mr-1" />
-              <span className="text-sm font-medium">
-                {language.toUpperCase()}
-              </span>
-            </button>
-
-            {/* Mobile Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-            >
-              {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900 shadow-lg">
-            {navigationItems.map((item) => (
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-0.5">
+            {navIds.map((id) => (
               <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  activeSection === item.id
-                    ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                key={id}
+                onClick={() => handleNav(id)}
+                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
+                  activeSection === id
+                    ? 'bg-brand-50 text-brand-700 dark:bg-brand-950/50 dark:text-brand-400'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/70'
                 }`}
               >
-                {item.label}
+                {t(`nav.${id}`)}
               </button>
             ))}
           </div>
+
+          {/* Right side */}
+          <div className="flex items-center gap-1">
+            {/* Language toggle */}
+            <button
+              onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-all uppercase tracking-wide"
+              aria-label="Toggle language"
+            >
+              <Globe size={13} />
+              {language}
+            </button>
+
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-all"
+              aria-label={t(theme === 'light' ? 'common.darkMode' : 'common.lightMode')}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            {/* CTA (desktop) */}
+            <button
+              onClick={() => handleNav('contact')}
+              className="hidden md:inline-flex items-center gap-1.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-semibold px-4 py-2 rounded-lg ml-2 transition-all duration-200 shadow-md shadow-brand-600/20 hover:shadow-brand-500/30 hover:-translate-y-px"
+            >
+              {t('nav.cta')}
+            </button>
+
+            {/* Hamburger (mobile) */}
+            <button
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800 transition-all"
+              aria-label="Toggle menu"
+            >
+              {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile menu */}
+      {isMobileOpen && (
+        <div className="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-slate-200 dark:border-slate-700">
+          <div className="max-w-6xl mx-auto px-4 py-3 space-y-1">
+            {navIds.map((id) => (
+              <button
+                key={id}
+                onClick={() => handleNav(id)}
+                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                  activeSection === id
+                    ? 'bg-brand-50 text-brand-700 dark:bg-brand-950/50 dark:text-brand-400'
+                    : 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800'
+                }`}
+              >
+                {t(`nav.${id}`)}
+              </button>
+            ))}
+            <div className="pt-2 pb-1">
+              <button
+                onClick={() => handleNav('contact')}
+                className="w-full bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 rounded-xl transition-all"
+              >
+                {t('nav.cta')}
+              </button>
+            </div>
+          </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 
