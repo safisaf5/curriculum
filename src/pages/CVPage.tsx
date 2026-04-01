@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Printer, Briefcase, GraduationCap, Globe, Award, Shield, Users,
   ChevronDown, ChevronUp, Mail, Phone, MapPin, ExternalLink,
-  Code, Heart, Star, BookOpen, Mic, ThumbsUp
+  Code, Heart, Star, BookOpen, Mic, ThumbsUp, ArrowLeft, Moon, Sun
 } from 'lucide-react';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { useInView } from '../../hooks/useInView';
-import { cvData } from '../../data/cv';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useInView } from '../hooks/useInView';
+import { useTheme } from '../contexts/ThemeContext';
+import { cvData } from '../data/cv';
 
 const getStr = (val: string | { fr: string; en: string }, lang: 'fr' | 'en'): string => {
   if (typeof val === 'string') return val;
   return val[lang];
 };
 
-const CV: React.FC = () => {
-  const { t, language } = useLanguage();
+const CVPage: React.FC = () => {
+  const { t, language, setLanguage } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const { ref, inView } = useInView(0.05);
   const [showAllExp, setShowAllExp] = useState(false);
   const [showGrades, setShowGrades] = useState(false);
@@ -45,17 +48,42 @@ const CV: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors">
       <style>{`
         @media print {
-          header, #home, #about, #services, #projects, #experience, #skills, #contact, .print-hide { display: none !important; }
+          .print-hide { display: none !important; }
           #cv { padding-top: 0 !important; background: white !important; }
           #cv * { color: #1a1a1a !important; border-color: #e2e8f0 !important; }
         }
       `}</style>
 
-      <section id="cv" className="py-24 bg-white dark:bg-slate-900">
-        <div className="section-container">
+      {/* Top bar */}
+      <header className="print-hide fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-700/60 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-14">
+          <Link to="/" className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:hover:text-white text-sm font-medium transition-colors">
+            <ArrowLeft size={16} />
+            {language === 'fr' ? 'Retour au site' : 'Back to site'}
+          </Link>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLanguage(language === 'fr' ? 'en' : 'fr')}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-all uppercase tracking-wide"
+            >
+              <Globe size={13} />
+              {language}
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-all"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section id="cv" className="pt-24 pb-24 bg-white dark:bg-slate-900">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
           <div
@@ -426,8 +454,8 @@ const CV: React.FC = () => {
 
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
-export default CV;
+export default CVPage;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Globe, Moon, Sun } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -8,7 +9,7 @@ interface NavigationProps {
   onSectionChange: (section: string) => void;
 }
 
-const navIds = ['about', 'services', 'projects', 'experience', 'skills', 'cv', 'contact'];
+const navIds = ['about', 'services', 'projects', 'experience', 'skills', 'contact'];
 
 const Navigation: React.FC<NavigationProps> = ({ activeSection, onSectionChange }) => {
   const [isScrolled, setIsScrolled]   = useState(false);
@@ -67,6 +68,12 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, onSectionChange 
                 {t(`nav.${id}`)}
               </button>
             ))}
+            <Link
+              to="/cv"
+              className="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/70 transition-all duration-150"
+            >
+              {t('nav.cv')}
+            </Link>
           </div>
 
           {/* Right side */}
@@ -127,6 +134,12 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, onSectionChange 
                 {t(`nav.${id}`)}
               </button>
             ))}
+            <Link
+              to="/cv"
+              className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800 transition-all block"
+            >
+              {t('nav.cv')}
+            </Link>
             <div className="pt-2 pb-1">
               <button
                 onClick={() => handleNav('contact')}

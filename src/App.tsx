@@ -9,16 +9,16 @@ import Services from './components/sections/Services';
 import Projects from './components/sections/Projects';
 import Experience from './components/sections/Experience';
 import Skills from './components/sections/Skills';
-import CV from './components/sections/CV';
 import Contact from './components/sections/Contact';
 import CardPage from './pages/CardPage';
+import CVPage from './pages/CVPage';
 
 function MainSite() {
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'services', 'projects', 'experience', 'skills', 'cv', 'contact'];
+      const sections = ['home', 'about', 'services', 'projects', 'experience', 'skills', 'contact'];
       const scrollPosition = window.scrollY + 120;
 
       for (const section of sections) {
@@ -54,7 +54,6 @@ function MainSite() {
         <Projects />
         <Experience />
         <Skills />
-        <CV />
         <Contact />
       </main>
     </div>
@@ -68,6 +67,7 @@ function App() {
         <LanguageProvider>
           <Routes>
             <Route path="/" element={<MainSite />} />
+            <Route path="/cv" element={<CVPage />} />
             <Route path="/card" element={<CardPage />} />
           </Routes>
         </LanguageProvider>
