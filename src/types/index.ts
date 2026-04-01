@@ -41,6 +41,9 @@ export interface Project {
   };
   technologies: string[];
   year: string;
+  icon?: string;
+  featured?: boolean;
+  link?: string;
 }
 
 export interface Skill {
@@ -49,4 +52,22 @@ export interface Skill {
     en: string;
   };
   items: string[];
+}
+
+export interface Service {
+  id: string;
+  icon: string;
+  title: {
+    fr: string;
+    en: string;
+  };
+  description: {
+    fr: string;
+    en: string;
+  };
+  features: {
+    fr: string;
+    en: string;
+  }[];
+  accent: string;
 }

@@ -2,6 +2,21 @@ import { Project } from '../types';
 
 export const projects: Project[] = [
   {
+    id: 'neuronia',
+    title: {
+      fr: 'Neuron IA — Assistant IA privé pour PME',
+      en: 'Neuron IA — Private AI Assistant for SMBs'
+    },
+    description: {
+      fr: 'Plateforme SaaS d\'automatisation par IA pour les PME suisses. 4 agents IA spécialisés (support client, commercial, analyste, multilingue) qui automatisent e-mails, devis et CRM — hébergés en Suisse pour une confidentialité totale. Déploiement en 7 jours, gain moyen de 10h/semaine.',
+      en: 'AI-powered automation SaaS platform for Swiss SMBs. 4 specialized AI agents (customer support, sales, analyst, multilingual) that automate emails, quotes and CRM — hosted in Switzerland for total data privacy. 7-day deployment, average time savings of 10h/week.'
+    },
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Framer Motion', 'AI Agents'],
+    year: '2026',
+    featured: true,
+    link: 'https://neuronia.ch'
+  },
+  {
     id: 'mechanical-watch',
     title: {
       fr: 'Montre Mécanique Artisanale',

@@ -1,95 +1,93 @@
 import React from 'react';
-import { Briefcase, GraduationCap, Trophy, Calendar } from 'lucide-react';
+import { Briefcase, GraduationCap, Trophy } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useInView } from '../../hooks/useInView';
 import { experiences } from '../../data/experiences';
 
+const typeConfig = {
+  work: {
+    Icon: Briefcase,
+    dot: 'bg-brand-600 dark:bg-brand-500',
+    badge: 'bg-brand-50 text-brand-700 dark:bg-brand-950/50 dark:text-brand-400',
+  },
+  education: {
+    Icon: GraduationCap,
+    dot: 'bg-emerald-500',
+    badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400',
+  },
+  achievement: {
+    Icon: Trophy,
+    dot: 'bg-amber-500',
+    badge: 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400',
+  },
+};
+
+/* Show the 6 most relevant experiences */
+const FEATURED_COUNT = 6;
+
 const Experience: React.FC = () => {
-  const { t, language } = useLanguage();
+  const { language, t } = useLanguage();
+  const { ref, inView } = useInView(0.05);
 
-  const getIcon = (type: string) => {
-    switch (type) {
-      case 'work':
-        return <Briefcase className="h-6 w-6" />;
-      case 'education':
-        return <GraduationCap className="h-6 w-6" />;
-      case 'achievement':
-        return <Trophy className="h-6 w-6" />;
-      default:
-        return <Calendar className="h-6 w-6" />;
-    }
-  };
-
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'work':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
-      case 'education':
-        return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
-      case 'achievement':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400';
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400';
-    }
-  };
+  const featured = experiences.slice(0, FEATURED_COUNT);
 
   return (
-    <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="py-24 bg-slate-50 dark:bg-slate-800/50">
+      <div className="section-container">
+
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            {t('experience.title')}
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
+        <div
+          ref={ref as React.RefObject<HTMLDivElement>}
+          className={`text-center mb-16 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
+          <span className="section-tag mb-3 block">{t('experience.title')}</span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             {t('experience.subtitle')}
-          </p>
+          </h2>
         </div>
 
         {/* Timeline */}
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 h-full w-0.5 bg-blue-200 dark:bg-blue-800"></div>
+        <div className="relative max-w-3xl mx-auto">
+          {/* Vertical line */}
+          <div className="absolute left-5 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-700" />
 
-          {/* Experience items */}
-          <div className="space-y-12">
-            {experiences.map((exp, index) => (
-              <div
-                key={exp.id}
-                className={`relative flex items-center ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 bg-blue-600 dark:bg-blue-500 rounded-full flex items-center justify-center text-white z-10">
-                  {getIcon(exp.type)}
-                </div>
+          <div className="space-y-8">
+            {featured.map((exp, i) => {
+              const cfg = typeConfig[exp.type] ?? typeConfig.work;
+              const Icon = cfg.Icon;
+              return (
+                <div
+                  key={exp.id}
+                  className={`relative pl-16 transition-all duration-700 ${
+                    inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ transitionDelay: `${i * 80}ms` }}
+                >
+                  {/* Dot */}
+                  <div className={`absolute left-0 w-10 h-10 ${cfg.dot} rounded-full flex items-center justify-center shadow-md z-10`}>
+                    <Icon size={16} className="text-white" />
+                  </div>
 
-                {/* Content */}
-                <div className={`ml-16 md:ml-0 md:w-1/2 ${
-                  index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'
-                }`}>
-                  <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(exp.type)}`}>
+                  {/* Card */}
+                  <div className="card p-6 hover:-translate-y-0.5 transition-all">
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${cfg.badge}`}>
                         {exp.period}
                       </span>
                     </div>
-                    
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1 leading-snug">
                       {exp.title[language]}
                     </h3>
-                    
-                    <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">
+                    <div className="text-brand-600 dark:text-brand-400 font-semibold text-sm mb-3">
                       {exp.company[language]}
-                    </h4>
-                    
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    </div>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
                       {exp.description[language]}
                     </p>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
