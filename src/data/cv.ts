@@ -268,26 +268,6 @@ export const cvData = {
       period: { fr: 'Sept. 2019 – Juil. 2024', en: 'Sep 2019 – Jul 2024' },
       speciality: { fr: 'Biochimie', en: 'Biochemistry' },
       average: '5.1/6',
-      grades: [
-        { subject: { fr: 'Français', en: 'French' }, grade: '4.5', type: 'DF' },
-        { subject: { fr: 'Italien', en: 'Italian' }, grade: '5.0', type: 'DF' },
-        { subject: { fr: 'Anglais', en: 'English' }, grade: '5.0', type: 'DF' },
-        { subject: { fr: 'Mathématiques (niveau avancé)', en: 'Mathematics (advanced)' }, grade: '5.0', type: 'DF' },
-        { subject: { fr: 'Biologie', en: 'Biology' }, grade: '5.5', type: 'DF' },
-        { subject: { fr: 'Chimie', en: 'Chemistry' }, grade: '5.5', type: 'DF' },
-        { subject: { fr: 'Physique', en: 'Physics' }, grade: '5.0', type: 'DF' },
-        { subject: { fr: 'Histoire', en: 'History' }, grade: '5.0', type: 'DF' },
-        { subject: { fr: 'Géographie', en: 'Geography' }, grade: '4.5', type: 'DF' },
-        { subject: { fr: 'Philosophie', en: 'Philosophy' }, grade: '4.5', type: 'DF' },
-        { subject: { fr: 'Arts visuels', en: 'Visual Arts' }, grade: '4.5', type: 'DF' },
-        { subject: { fr: 'Biologie et chimie (OS)', en: 'Biology & Chemistry (SO)' }, grade: '5.0', type: 'OS' },
-        { subject: { fr: 'Économie et droit (OC)', en: 'Economics & Law (CO)' }, grade: '4.5', type: 'OC' },
-        { subject: { fr: 'Travail de maturité', en: 'Maturity Thesis' }, grade: '6.0', type: 'TM' },
-      ],
-      tmTitle: {
-        fr: "Construire une montre automatique à l'aide de pièces détachées",
-        en: "Building an automatic watch using spare parts"
-      },
     },
     {
       institution: { fr: 'HEG Genève / Centre Universitaire Informatique', en: 'HEG Geneva / University IT Center' },

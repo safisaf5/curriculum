@@ -20,13 +20,11 @@ const CVPage: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const { ref, inView } = useInView(0.05);
   const [showAllExp, setShowAllExp] = useState(false);
-  const [showGrades, setShowGrades] = useState(false);
   const [showAllEdu, setShowAllEdu] = useState(false);
 
   const handlePrint = () => {
     setShowAllExp(true);
     setShowAllEdu(true);
-    setShowGrades(true);
     setTimeout(() => window.print(), 200);
   };
 
@@ -253,9 +251,7 @@ const CVPage: React.FC = () => {
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">{t('cv.education')}</h3>
                 </div>
                 <div className="space-y-4">
-                  {visibleEdu.map((edu, i) => {
-                    const hasGrades = edu.grades !== undefined;
-                    return (
+                  {visibleEdu.map((edu, i) => (
                       <div key={i} className="relative pl-5 border-l-2 border-emerald-200 dark:border-emerald-800 hover:border-emerald-500 transition-colors">
                         <div className="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-emerald-500" />
                         <p className="text-xs text-slate-400 font-medium mb-0.5">{getStr(edu.period, language)}</p>
@@ -279,41 +275,8 @@ const CVPage: React.FC = () => {
                         {edu.description && (
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{getStr(edu.description, language)}</p>
                         )}
-
-                        {hasGrades && (
-                          <div className="mt-2">
-                            <button
-                              onClick={() => setShowGrades(!showGrades)}
-                              className="print-hide flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 hover:text-brand-500 font-semibold"
-                            >
-                              {t('cv.grades')}
-                              {showGrades ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                            </button>
-                            {showGrades && edu.grades && (
-                              <div className="mt-2 space-y-0.5">
-                                {edu.tmTitle && (
-                                  <p className="text-xs text-slate-400 italic mb-2">
-                                    TM: &ldquo;{getStr(edu.tmTitle, language)}&rdquo;
-                                  </p>
-                                )}
-                                {edu.grades.map((g, gi) => (
-                                  <div key={gi} className="flex justify-between items-center text-xs py-1 px-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700/50">
-                                    <span className="text-slate-600 dark:text-slate-300">{getStr(g.subject, language)}</span>
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-slate-400 text-[10px]">{g.type}</span>
-                                      <span className={`font-bold ${parseFloat(g.grade) >= 5.5 ? 'text-emerald-600 dark:text-emerald-400' : parseFloat(g.grade) >= 5.0 ? 'text-brand-600 dark:text-brand-400' : 'text-slate-600 dark:text-slate-300'}`}>
-                                        {g.grade}
-                                      </span>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        )}
                       </div>
-                    );
-                  })}
+                  ))}
                 </div>
                 {cvData.education.length > 5 && (
                   <button
