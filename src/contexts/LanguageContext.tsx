@@ -19,6 +19,7 @@ const translations = {
     'nav.projects': 'Projets',
     'nav.skills': 'Compétences',
     'nav.media': 'Médias',
+    'nav.cv': 'CV',
     'nav.contact': 'Contact',
     
     // Home
@@ -62,13 +63,32 @@ const translations = {
     'media.coming': 'Contenu à venir',
     'media.description': 'Cette section présentera les futures apparitions presse, interviews et couvertures médiatiques.',
     
+    // CV
+    'cv.title': 'Curriculum Vitae',
+    'cv.subtitle': 'Mon parcours complet',
+    'cv.profile': 'Profil',
+    'cv.summary': 'Résumé professionnel',
+    'cv.experience': 'Expériences professionnelles',
+    'cv.education': 'Formation',
+    'cv.languages': 'Langues & Certifications',
+    'cv.skills': 'Compétences',
+    'cv.certifications': 'Permis & Certifications',
+    'cv.awards': 'Distinctions',
+    'cv.associations': 'Associations & Engagement',
+    'cv.publications': 'Publications LinkedIn',
+    'cv.print': 'Imprimer',
+    'cv.showMore': 'Voir tout',
+    'cv.showLess': 'Voir moins',
+    'cv.grades': 'Détail des notes',
+    'cv.hobbies': 'Centres d\'intérêt',
+
     // Contact
     'contact.title': 'Contact',
     'contact.subtitle': 'Restons en contact',
     'contact.email': 'Email',
     'contact.phone': 'Téléphone',
     'contact.website': 'Site web',
-    
+
     // Common
     'common.darkMode': 'Mode sombre',
     'common.lightMode': 'Mode clair',
@@ -82,6 +102,7 @@ const translations = {
     'nav.projects': 'Projects',
     'nav.skills': 'Skills',
     'nav.media': 'Media',
+    'nav.cv': 'CV',
     'nav.contact': 'Contact',
     
     // Home
@@ -125,13 +146,32 @@ const translations = {
     'media.coming': 'Content coming soon',
     'media.description': 'This section will showcase future press appearances, interviews, and media coverage.',
     
+    // CV
+    'cv.title': 'Curriculum Vitae',
+    'cv.subtitle': 'My complete journey',
+    'cv.profile': 'Profile',
+    'cv.summary': 'Professional Summary',
+    'cv.experience': 'Professional Experience',
+    'cv.education': 'Education',
+    'cv.languages': 'Languages & Certifications',
+    'cv.skills': 'Skills',
+    'cv.certifications': 'Permits & Certifications',
+    'cv.awards': 'Awards & Honors',
+    'cv.associations': 'Associations & Engagement',
+    'cv.publications': 'LinkedIn Publications',
+    'cv.print': 'Print',
+    'cv.showMore': 'Show all',
+    'cv.showLess': 'Show less',
+    'cv.grades': 'Grade details',
+    'cv.hobbies': 'Interests',
+
     // Contact
     'contact.title': 'Contact',
     'contact.subtitle': 'Let\'s stay in touch',
     'contact.email': 'Email',
     'contact.phone': 'Phone',
     'contact.website': 'Website',
-    
+
     // Common
     'common.darkMode': 'Dark mode',
     'common.lightMode': 'Light mode',

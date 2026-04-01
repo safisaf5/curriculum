@@ -21,6 +21,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeSection, onSectionChange 
     { id: 'projects', label: t('nav.projects') },
     { id: 'skills', label: t('nav.skills') },
     { id: 'media', label: t('nav.media') },
+    { id: 'cv', label: t('nav.cv') },
     { id: 'contact', label: t('nav.contact') },
   ];
 
