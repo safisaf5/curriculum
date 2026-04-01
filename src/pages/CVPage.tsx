@@ -49,11 +49,124 @@ const CVPage: React.FC = () => {
     <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors">
       <style>{`
         @media print {
-          .print-hide { display: none !important; }
-          #cv { padding-top: 0 !important; background: white !important; }
-          #cv * { color: #1a1a1a !important; border-color: #e2e8f0 !important; }
+          @page { size: A4; margin: 8mm 10mm; }
+          body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          .print-hide, header, #cv { display: none !important; }
+          .print-cv { display: block !important; }
         }
+        .print-cv { display: none; }
+        .print-cv * { color: #1a1a1a; }
+        .print-cv h1 { font-size: 16pt; font-weight: 800; margin: 0; }
+        .print-cv h2 { font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1.5px solid #4F46E5; padding-bottom: 1px; margin: 6px 0 3px 0; color: #4F46E5; }
+        .print-cv h3 { font-size: 7.5pt; font-weight: 700; margin: 0; }
+        .print-cv p, .print-cv span, .print-cv li { font-size: 7pt; line-height: 1.3; margin: 0; }
+        .print-cv .subtitle { font-size: 9pt; color: #4F46E5; font-weight: 600; }
+        .print-cv .contact-row { font-size: 7pt; color: #555; margin-top: 2px; }
+        .print-cv .contact-row span { margin-right: 10px; }
+        .print-cv .entry { margin-bottom: 3px; }
+        .print-cv .entry-title { font-size: 7.5pt; font-weight: 700; }
+        .print-cv .entry-sub { font-size: 7pt; color: #4F46E5; font-weight: 600; }
+        .print-cv .entry-date { font-size: 6.5pt; color: #888; }
+        .print-cv .entry-desc { font-size: 6.5pt; color: #555; }
+        .print-cv .cols { display: flex; gap: 14px; }
+        .print-cv .col-left { flex: 1.15; }
+        .print-cv .col-right { flex: 0.85; }
+        .print-cv .tag { display: inline-block; font-size: 6.5pt; background: #EEF2FF; color: #4338CA; padding: 1px 5px; border-radius: 3px; margin: 1px 2px 1px 0; }
+        .print-cv .lang-row { display: flex; justify-content: space-between; font-size: 7pt; padding: 1px 0; }
+        .print-cv .summary-text { font-size: 7pt; color: #444; line-height: 1.35; margin-top: 3px; }
+        .print-cv ul { padding-left: 10px; margin: 0; }
+        .print-cv li { font-size: 6.5pt; }
       `}</style>
+
+      {/* ===== PRINT-ONLY A4 CV ===== */}
+      <div className="print-cv" style={{ fontFamily: 'Inter, system-ui, sans-serif', maxWidth: '190mm' }}>
+        {/* Header */}
+        <h1>{cvData.profile.name}</h1>
+        <p className="subtitle">{getStr(cvData.profile.title, language)}</p>
+        <div className="contact-row">
+          <span>{cvData.profile.contact.email}</span>
+          <span>{cvData.profile.contact.phone}</span>
+          <span>{getStr(cvData.profile.location, language)}</span>
+          <span>linkedin.com/in/safwanab</span>
+        </div>
+        <p className="summary-text">{getStr(cvData.profile.summary, language)}</p>
+
+        <div className="cols">
+          {/* LEFT COL */}
+          <div className="col-left">
+            <h2>{t('cv.experience')}</h2>
+            {cvData.experience.slice(0, 10).map((exp, i) => (
+              <div key={i} className="entry">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span className="entry-title">{getStr(exp.title, language)}</span>
+                  <span className="entry-date">{getStr(exp.period, language)}</span>
+                </div>
+                <p className="entry-sub">{getStr(exp.company, language)}</p>
+                {exp.description && <p className="entry-desc">{getStr(exp.description, language)}</p>}
+              </div>
+            ))}
+
+            <h2>{t('cv.awards')}</h2>
+            {cvData.awards.map((a, i) => (
+              <div key={i} className="entry">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span className="entry-title">{getStr(a.title, language)}</span>
+                  <span className="entry-date">{a.date}</span>
+                </div>
+                <p className="entry-sub">{getStr(a.event, language)}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* RIGHT COL */}
+          <div className="col-right">
+            <h2>{t('cv.education')}</h2>
+            {cvData.education.slice(0, 6).map((edu, i) => (
+              <div key={i} className="entry">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span className="entry-title">{getStr(edu.degree, language)}</span>
+                  <span className="entry-date">{getStr(edu.period, language)}</span>
+                </div>
+                <p className="entry-sub">{getStr(edu.institution, language)}</p>
+                {edu.average && <p className="entry-desc">{language === 'fr' ? 'Moyenne' : 'Average'}: {edu.average}</p>}
+              </div>
+            ))}
+
+            <h2>{t('cv.languages')}</h2>
+            {cvData.languages.map((l, i) => (
+              <div key={i} className="lang-row">
+                <span style={{ fontWeight: 600 }}>{getStr(l.name, language)}</span>
+                <span>{l.cecrl} — {getStr(l.level, language)}</span>
+              </div>
+            ))}
+
+            <h2>{t('cv.skills')}</h2>
+            {Object.entries(cvData.skills).filter(([k]) => k !== 'personal').map(([key, cat]) => (
+              <div key={key} style={{ marginBottom: '3px' }}>
+                <p style={{ fontWeight: 700, fontSize: '6.5pt', marginBottom: '1px' }}>{getStr(cat.label, language)}</p>
+                <div>{cat.items.map((item: string, i: number) => <span key={i} className="tag">{item}</span>)}</div>
+              </div>
+            ))}
+            <div style={{ marginBottom: '3px' }}>
+              <p style={{ fontWeight: 700, fontSize: '6.5pt', marginBottom: '1px' }}>{getStr(cvData.skills.personal.label, language)}</p>
+              <div>{cvData.skills.personal.items.map((item, i) => <span key={i} className="tag">{getStr(item, language)}</span>)}</div>
+            </div>
+
+            <h2>{t('cv.permits')}</h2>
+            {cvData.permits.map((p, i) => (
+              <p key={i} style={{ fontSize: '7pt' }}>{getStr(p.name, language)}</p>
+            ))}
+
+            <h2>{t('cv.associations')}</h2>
+            {cvData.associations.slice(0, 4).map((a, i) => (
+              <div key={i} className="entry">
+                <span className="entry-title">{getStr(a.role, language)}</span>
+                <span className="entry-desc"> — {getStr(a.name, language)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* Top bar */}
       <header className="print-hide fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-700/60 shadow-sm">
