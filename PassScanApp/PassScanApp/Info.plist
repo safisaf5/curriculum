@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSCameraUsageDescription</key>
+    <string>L'accès à la caméra est nécessaire pour scanner les zones MRZ des passeports et cartes d'identité.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>L'accès à la photothèque est nécessaire pour importer des images à scanner.</string>
+    <key>CFBundleName</key>
+    <string>PassScan</string>
+    <key>CFBundleDisplayName</key>
+    <string>PassScan</string>
+    <key>CFBundleIdentifier</key>
+    <string>app.turquoise6929.taro1209</string>
+    <key>CFBundleVersion</key>
+    <string>2</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.1.0</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>passscan</string>
+            </array>
+            <key>CFBundleURLName</key>
+            <string>app.turquoise6929.taro1209</string>
+        </dict>
+    </array>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>PassScan utilise le réseau local pour synchroniser les scans entre plusieurs appareils en temps réel.</string>
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_passscan-sync._tcp</string>
+        <string>_passscan-sync._udp</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+</dict>
+</plist>
