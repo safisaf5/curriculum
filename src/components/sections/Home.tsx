@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ArrowRight, Zap, MapPin } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useInView } from '../../hooks/useInView';
+import AnimatedCounter from '../AnimatedCounter';
 
 interface HomeProps {
   onNavigate: (section: string) => void;
@@ -10,20 +11,46 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
   const { ref: heroRef, inView } = useInView(0.05);
+  const sectionRef = useRef<HTMLElement>(null);
+  const frame = useRef(0);
+
+  // Pointer-following glow (desktop) — cheap, rAF-throttled
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (frame.current) return;
+    const { clientX, clientY, currentTarget } = e;
+    frame.current = requestAnimationFrame(() => {
+      const rect = currentTarget.getBoundingClientRect();
+      currentTarget.style.setProperty('--mx', `${clientX - rect.left}px`);
+      currentTarget.style.setProperty('--my', `${clientY - rect.top}px`);
+      frame.current = 0;
+    });
+  };
 
   return (
     <section
       id="home"
+      ref={sectionRef}
+      onPointerMove={handlePointerMove}
       className="relative min-h-screen flex items-center overflow-hidden bg-slate-950"
     >
-      {/* Background: grid + orbs */}
+      {/* Background: grid + orbs + pointer glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-[0.05] animate-grid-flow"
           style={{
             backgroundImage:
               'linear-gradient(rgba(99,102,241,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.6) 1px, transparent 1px)',
             backgroundSize: '72px 72px',
+          }}
+        />
+        {/* Radial mask to fade the grid towards the edges */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950" />
+        {/* Interactive glow that follows the cursor */}
+        <div
+          className="absolute inset-0 hidden md:block transition-opacity duration-300"
+          style={{
+            background:
+              'radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), rgba(99,102,241,0.12), transparent 70%)',
           }}
         />
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-brand-600/15 rounded-full blur-3xl animate-pulse-slow" />
@@ -52,7 +79,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.12] mb-6">
               {t('hero.h1a')}
-              <span className="bg-gradient-to-r from-brand-400 via-purple-400 to-brand-300 bg-clip-text text-transparent">
+              <span className="gradient-text-animated">
                 {t('hero.h1b')}
               </span>
               {t('hero.h1c')}
@@ -113,7 +140,11 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden border-2 border-brand-500/30 shadow-2xl shadow-brand-500/20">
                 <img
                   src="/IMG_8964.JPG"
-                  alt="Safwan Abdirahman"
+                  alt="Safwan Abdirahman — Tech Entrepreneur & AI Consultant"
+                  width={340}
+                  height={340}
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-full object-cover object-top"
                 />
                 <div className="absolute inset-0 rounded-full bg-gradient-to-t from-slate-950/30 to-transparent" />
@@ -121,13 +152,13 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
               {/* Stat: languages */}
               <div className="absolute -bottom-4 -left-6 bg-white dark:bg-slate-800 rounded-2xl px-4 py-3 shadow-xl border border-slate-100 dark:border-slate-700 animate-float">
-                <div className="text-2xl font-bold text-slate-900 dark:text-white">5+</div>
+                <AnimatedCounter value="5+" className="text-2xl font-bold text-slate-900 dark:text-white block" />
                 <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{t('hero.languages')}</div>
               </div>
 
               {/* Stat: years */}
               <div className="absolute -top-4 -right-6 bg-brand-600 rounded-2xl px-4 py-3 shadow-xl shadow-brand-600/30 animate-float" style={{ animationDelay: '1.5s' }}>
-                <div className="text-2xl font-bold text-white">4+</div>
+                <AnimatedCounter value="4+" className="text-2xl font-bold text-white block" />
                 <div className="text-xs text-brand-200 mt-0.5">{t('hero.years')}</div>
               </div>
             </div>

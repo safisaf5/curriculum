@@ -4,7 +4,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { useInView } from '../../hooks/useInView';
 
 const Contact: React.FC = () => {
-  const { language, t } = useLanguage();
+  const { t } = useLanguage();
   const { ref, inView } = useInView(0.1);
 
   const contactActions = [
