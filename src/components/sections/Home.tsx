@@ -135,7 +135,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce-slow opacity-50">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 animate-bounce-slow opacity-50">
           <span className="text-slate-500 text-xs tracking-wide">{t('hero.scroll')}</span>
           <div className="w-5 h-8 border border-slate-600 rounded-full flex items-start justify-center p-1">
             <div className="w-1 h-2 bg-slate-500 rounded-full animate-bounce" />

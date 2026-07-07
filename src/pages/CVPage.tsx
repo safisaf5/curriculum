@@ -46,13 +46,16 @@ const CVPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900 transition-colors">
+    <div className="cv-screen min-h-screen bg-white dark:bg-slate-900 transition-colors">
       <style>{`
         @media print {
           @page { size: A4; margin: 8mm 10mm; }
+          html { color-scheme: light; }
+          html, body { height: auto !important; background: #fff !important; }
           body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
           .print-hide, header, #cv { display: none !important; }
-          .print-cv { display: block !important; }
+          .cv-screen { background: #fff !important; min-height: 0 !important; }
+          .print-cv { display: block !important; max-height: 279mm; overflow: hidden; page-break-after: avoid; }
         }
         .print-cv { display: none; }
         .print-cv * { color: #1a1a1a; }

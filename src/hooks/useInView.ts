@@ -5,6 +5,12 @@ export function useInView(threshold = 0.15) {
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
+    // Sur téléphone : pas d'animation au scroll, le contenu est visible directement
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      setInView(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
