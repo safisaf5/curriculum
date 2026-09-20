@@ -5,9 +5,48 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Offset anchored scrolling for the fixed navbar */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  /* Text selection */
+  ::selection {
+    @apply bg-brand-500/30 text-inherit;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full border-2 border-solid border-transparent bg-clip-content;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brand-400 dark:bg-brand-600;
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -38,6 +77,24 @@
 
   .gradient-text {
     @apply bg-gradient-to-r from-brand-500 via-purple-500 to-brand-400 bg-clip-text text-transparent;
+  }
+
+  /* Animated gradient text — for the hero headline */
+  .gradient-text-animated {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(110deg, #818CF8, #c084fc, #22d3ee, #818CF8);
+    background-size: 200% auto;
+    @apply animate-gradient;
+  }
+
+  /* Frosted-glass surface */
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-white/40 dark:border-white/10;
+  }
+
+  /* Animated gradient border wrapper */
+  .gradient-border {
+    @apply relative rounded-2xl p-[1px] bg-gradient-to-br from-brand-500/50 via-purple-500/40 to-cyan-500/50;
   }
 
   .reveal {

@@ -89,6 +89,9 @@ const CardPage: React.FC = () => {
               <img
                 src="/IMG_8964.JPG"
                 alt="Safwan Abdirahman"
+                width={112}
+                height={112}
+                decoding="async"
                 className="w-28 h-28 rounded-full object-cover object-top border-2 border-brand-500/40 shadow-xl shadow-brand-500/20"
               />
               {/* Online dot */}

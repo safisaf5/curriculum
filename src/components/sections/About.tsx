@@ -2,6 +2,7 @@ import React from 'react';
 import { Tv, Trophy, Globe, Zap } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useInView } from '../../hooks/useInView';
+import AnimatedCounter from '../AnimatedCounter';
 
 const stats = [
   { value: '4+', labelFr: 'Années en business', labelEn: 'Years in business' },
@@ -83,7 +84,7 @@ const About: React.FC = () => {
               className="card p-6 text-center"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <div className="text-4xl font-bold text-brand-600 dark:text-brand-400 mb-1">{s.value}</div>
+              <AnimatedCounter value={s.value} className="text-4xl font-bold text-brand-600 dark:text-brand-400 mb-1 block" />
               <div className="text-sm text-slate-500 dark:text-slate-400">
                 {language === 'fr' ? s.labelFr : s.labelEn}
               </div>

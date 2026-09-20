@@ -1,0 +1,27 @@
+# Safwan Abdirahman
+
+> Entrepreneur tech et consultant en intelligence artificielle basé à Genève, Suisse. Fondateur de Heal ElectroniX. J'aide les PME, startups et entrepreneurs à automatiser leurs processus, opérer leur transformation digitale et croître grâce à l'IA.
+
+## À propos
+- Nom : Safwan Abdirahman
+- Rôle : Tech Entrepreneur & AI Consultant
+- Localisation : Genève, Suisse
+- Entreprise : Heal ElectroniX (fondée en 2020) — réparation électronique, micro-soudure, conseil IA
+- Langues : Français (natif), Arabe (natif), Anglais (B2), Italien (B2), Allemand (A2)
+- Formation : Université de Genève (Scala & IoT), maturité gymnasiale en Biochimie (Collège Voltaire)
+- Distinctions : Lauréat du Concours Genevois d'Éloquence 2023-2024, interviewé sur la RTS (TV nationale suisse)
+
+## Services
+- Consulting IA & Automatisation : audit des processus, sélection d'outils IA, intégration, formation
+- Transformation digitale : stratégie, déploiement d'outils, suivi des performances
+- Électronique & Hardware (Heal ElectroniX) : réparation, micro-soudure, récupération de données
+
+## Pages
+- [Accueil](https://safwan.ch/) : présentation, services, projets, parcours, compétences, contact
+- [CV](https://safwan.ch/cv) : curriculum vitae complet
+- [Carte de visite](https://safwan.ch/card) : coordonnées et QR code
+
+## Contact
+- Email : abdirahman@safwan.ch
+- Téléphone / WhatsApp : +41 78 963 62 23
+- Site : https://safwan.ch
