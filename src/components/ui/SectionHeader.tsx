@@ -17,6 +17,8 @@ interface SectionHeaderProps {
   /** 'split': title left, intro right. 'stack': intro under the title. */
   layout?: 'split' | 'stack';
   titleAs?: 'h2' | 'h1';
+  /** id on the heading, for the section's aria-labelledby. */
+  titleId?: string;
   className?: string;
   titleClassName?: string;
 }
@@ -33,6 +35,7 @@ export const SectionHeader = ({
   aside,
   layout = 'split',
   titleAs: Title = 'h2',
+  titleId,
   className,
   titleClassName,
 }: SectionHeaderProps) => {
@@ -57,6 +60,7 @@ export const SectionHeader = ({
         )}
       >
         <Title
+          id={titleId}
           className={cn(
             'font-semiwide text-display-l font-semibold text-ink',
             layout === 'split' && intro ? 'lg:col-span-7' : 'max-w-[18ch]',

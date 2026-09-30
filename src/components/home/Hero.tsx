@@ -92,7 +92,7 @@ export default function Hero() {
 
             <h1
               id="hero-title"
-              className="font-wide text-[clamp(2.55rem,11.4vw,5.5rem)] font-extrabold uppercase leading-[0.86] tracking-[-0.045em] text-ink lg:text-[clamp(3.4rem,5.75vw,8.2rem)]"
+              className="font-wide text-[clamp(2.4rem,10.6vw,5.25rem)] font-extrabold uppercase leading-[0.86] tracking-[-0.045em] text-ink lg:text-[clamp(3.4rem,5.75vw,8.2rem)]"
             >
               <span className="block overflow-hidden pb-[0.04em]">
                 <span className="block animate-rise-in">{profile.givenName}</span>

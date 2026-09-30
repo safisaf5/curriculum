@@ -30,17 +30,6 @@ const ANGLES: Record<Universe['id'], number> = {
   creative: 180,
 };
 
-/** Short labels for long entity titles (display only). */
-const SHORT: Record<string, { fr: string; en: string }> = {
-  'heg-scala-iot': { fr: 'Scala & IoT', en: 'Scala & IoT' },
-  'ifage-cafetier': { fr: 'Patente de cafetier', en: 'Restaurant licence' },
-  'eloquence-2024': { fr: 'Éloquence, 2e prix', en: 'Eloquence, 2nd prize' },
-  'rts-2024': { fr: 'RTS', en: 'RTS' },
-  'ai-workshop-2025': { fr: 'Atelier IA', en: 'AI workshop' },
-  geunes: { fr: 'Président GEunes', en: 'GEunes president' },
-  rolex: { fr: 'Stage Rolex', en: 'Rolex internship' },
-};
-
 const rad = (deg: number) => (deg * Math.PI) / 180;
 const polar = (r: number, deg: number) => ({ x: C + r * Math.cos(rad(deg)), y: C + r * Math.sin(rad(deg)) });
 
@@ -153,7 +142,7 @@ interface EcosystemDialProps {
 }
 
 export const EcosystemDial = ({ active, onActivate, className, pointerTarget }: EcosystemDialProps) => {
-  const { l, lang } = useI18n();
+  const { l } = useI18n();
   const t = useT('home');
   const nodes = useDialLayout();
   const fine = useFinePointer();
@@ -285,7 +274,7 @@ export const EcosystemDial = ({ active, onActivate, className, pointerTarget }: 
           const anchor = cos > 0.35 ? 'start' : cos < -0.35 ? 'end' : 'middle';
           const lx = n.x + (anchor === 'start' ? 11 : anchor === 'end' ? -11 : 0);
           const ly = n.y + (anchor === 'middle' ? (sin < 0 ? -13 : 22) : 5);
-          const label = SHORT[n.entity.id]?.[lang] ?? l(n.entity.title);
+          const label = t.evidenceShort(n.entity.id) || l(n.entity.title);
           // External links (e.g. a TV replay) stay in the page: the media section lists them
           const href = n.entity.external ? '/#media' : (n.entity.href ?? '/');
           return (
