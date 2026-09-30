@@ -53,7 +53,7 @@ export const LangSwitch = ({ className }: { className?: string }) => {
         <span key={l} className="flex items-center">
           {i > 0 && <span className="px-1 text-ink-3/60" aria-hidden="true">/</span>}
           {l === lang ? (
-            <span aria-current="true" className="px-1 py-2 text-ink">
+            <span aria-current="true" className="inline-flex min-h-11 min-w-9 items-center justify-center px-1 text-ink">
               {l}
             </span>
           ) : (
@@ -64,7 +64,7 @@ export const LangSwitch = ({ className }: { className?: string }) => {
               hrefLang={l}
               onClick={() => remember(l)}
               aria-label={t.switchLanguage}
-              className="px-1 py-2 text-ink-3 transition-colors hover:text-ink"
+              className="inline-flex min-h-11 min-w-9 items-center justify-center px-1 text-ink-3 transition-colors hover:text-ink"
             >
               {l}
             </SmartLink>

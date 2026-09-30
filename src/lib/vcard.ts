@@ -36,7 +36,7 @@ export const buildVcard = (photoJpegBase64?: string): string => {
     'VERSION:3.0',
     `N:${esc(profile.familyName)};${esc(profile.givenName)};;;`,
     `FN:${esc(profile.name)}`,
-    `TITLE:${esc('Entrepreneur · AI · Technology')}`,
+    `TITLE:${esc('Entrepreneur • AI • Technology')}`,
     `EMAIL;TYPE=INTERNET,PREF:${c.email}`,
     `TEL;TYPE=CELL,VOICE,PREF:${c.phoneE164}`,
     `ADR;TYPE=WORK:;;;${esc(profile.location.city.fr)};${profile.location.region};;${esc(profile.location.country.fr)}`,

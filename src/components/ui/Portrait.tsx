@@ -49,7 +49,8 @@ export const Portrait = ({ className, imgClassName, sizes = '(min-width: 1024px)
         alt={l(profile.portrait.alt)}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
-        fetchPriority={priority ? 'high' : 'auto'}
+        // React 18 does not know the camelCase prop yet: pass the raw attribute
+        {...{ fetchpriority: priority ? 'high' : 'auto' }}
         onError={(e) => {
           const img = e.currentTarget;
           if (!img.src.endsWith(fallback)) {
