@@ -1,0 +1,130 @@
+import type { Education } from './types';
+
+/**
+ * Education, newest first. Language certificates (Cambridge, DILI) live in
+ * languages.ts so they are defined once.
+ */
+export const education: Education[] = [
+  {
+    id: 'epfl-cms',
+    institution: { fr: 'EPFL · École polytechnique fédérale de Lausanne', en: 'EPFL · Swiss Federal Institute of Technology Lausanne' },
+    program: { fr: 'Cours de mathématiques spéciales (CMS)', en: 'Special Mathematics Course (CMS)' },
+    period: { start: '2025-09', end: '2026-07' },
+    kind: 'program',
+    field: { fr: 'Mathématiques & physique', en: 'Mathematics & physics' },
+    location: { fr: 'Lausanne', en: 'Lausanne' },
+    description: {
+      fr: 'Programme préparatoire intensif : analyse, algèbre linéaire, géométrie et physique.',
+      en: 'Intensive preparatory programme: analysis, linear algebra, geometry and physics.',
+    },
+    highlight: true,
+  },
+  {
+    id: 'ifage-cafetier',
+    institution: { fr: 'ifage · Fondation pour la formation des adultes', en: 'ifage · Adult Education Foundation' },
+    program: { fr: 'Diplôme cantonal de cafetier (patente), Genève', en: 'Geneva cantonal restaurateur diploma (licence)' },
+    period: { start: '2024-09', end: '2024-11' },
+    kind: 'certificate',
+    field: { fr: 'Gestion de restaurant', en: 'Restaurant management' },
+    location: { fr: 'Genève', en: 'Geneva' },
+    description: {
+      fr: "Gestion de restaurant, hygiène et sécurité alimentaire, traitement des salaires, droit du travail, gestion d'équipe.",
+      en: 'Restaurant management, food hygiene and safety, payroll, employment law, team management.',
+    },
+    highlight: true,
+  },
+  {
+    id: 'unige-psychology',
+    institution: { fr: 'Université de Genève', en: 'University of Geneva' },
+    program: { fr: 'Bachelor en psychologie', en: 'Bachelor in Psychology' },
+    period: { start: '2024-09' },
+    kind: 'degree',
+    field: { fr: 'Psychologie', en: 'Psychology' },
+    status: { fr: 'Non complété, réorientation', en: 'Not completed, changed direction' },
+  },
+  {
+    id: 'college-voltaire',
+    institution: { fr: 'Collège Voltaire', en: 'Collège Voltaire' },
+    program: { fr: 'Maturité gymnasiale avec mention', en: 'Swiss Matura with honours' },
+    period: { start: '2020', end: '2024' },
+    kind: 'degree',
+    field: { fr: 'Option spécifique biochimie', en: 'Major in biochemistry' },
+    location: { fr: 'Genève', en: 'Geneva' },
+    result: {
+      fr: 'Moyenne générale 5.1/6 · travail de maturité noté 6/6',
+      en: 'Overall average 5.1/6 · thesis graded 6/6',
+    },
+    highlight: true,
+  },
+  {
+    id: 'openclassrooms',
+    institution: { fr: 'OpenClassrooms', en: 'OpenClassrooms' },
+    program: { fr: 'Systèmes & réseaux, développement, marketing digital', en: 'Systems & networks, development, digital marketing' },
+    period: { start: '2023-07', end: '2023-08' },
+    kind: 'course',
+    field: { fr: 'Informatique & marketing', en: 'IT & marketing' },
+  },
+  {
+    id: 'heg-scala-iot',
+    institution: {
+      fr: 'Université de Genève (Centre universitaire d’informatique) & HEG Genève',
+      en: 'University of Geneva (Computer Science Centre) & HEG Geneva',
+    },
+    program: { fr: 'Coding Dojo · programmation Scala & Internet des objets (IoT)', en: 'Coding Dojo · Scala programming & Internet of Things (IoT)' },
+    period: { start: '2022-08', end: '2022-12' },
+    kind: 'program',
+    field: { fr: 'Programmation', en: 'Programming' },
+    location: { fr: 'Genève', en: 'Geneva' },
+    description: {
+      fr: 'Formation en programmation Scala et en Internet des objets : développement logiciel et systèmes connectés.',
+      en: 'Training in Scala programming and the Internet of Things: software development and connected systems.',
+    },
+    highlight: true,
+  },
+  {
+    id: 'debate-training',
+    institution: { fr: 'Club Genevois de Débat', en: 'Geneva Debate Club' },
+    program: { fr: 'Formation « Oser parler en public »', en: '"Dare to speak in public" training' },
+    period: { start: '2022-10', detail: { fr: '8 oct. 2022 et 14 oct. 2023', en: 'Oct 8, 2022 and Oct 14, 2023' } },
+    kind: 'course',
+    field: { fr: 'Prise de parole', en: 'Public speaking' },
+    highlight: true,
+  },
+  {
+    id: 'faclab',
+    institution: { fr: 'Faclab (Campus Battelle)', en: 'Faclab (Battelle campus)' },
+    program: { fr: 'Broderie numérique', en: 'Digital embroidery' },
+    period: { start: '2022-10' },
+    kind: 'course',
+    field: { fr: 'Fabrication numérique', en: 'Digital fabrication' },
+  },
+  {
+    id: 'google-seo',
+    institution: { fr: 'Google · Learn Digital', en: 'Google · Learn Digital' },
+    program: { fr: 'Référencement naturel (SEO)', en: 'Search Engine Optimisation (SEO)' },
+    period: { start: '2022-08' },
+    kind: 'course',
+    field: { fr: 'Marketing digital', en: 'Digital marketing' },
+  },
+  {
+    id: 'ecole-arabe',
+    institution: { fr: 'École arabe de Genève', en: 'Arabic School of Geneva' },
+    program: { fr: 'Enseignement de la langue arabe (10 ans)', en: 'Arabic language education (10 years)' },
+    period: { start: '2010', end: '2020' },
+    kind: 'school',
+  },
+  {
+    id: 'cycle-grandes-communes',
+    institution: { fr: "Cycle d'orientation des Grandes-Communes", en: 'Grandes-Communes lower secondary school' },
+    program: { fr: 'Secondaire I', en: 'Lower secondary' },
+    period: { start: '2017', end: '2020' },
+    kind: 'school',
+  },
+  {
+    id: 'tivoli',
+    institution: { fr: 'École primaire de Tivoli', en: 'Tivoli primary school' },
+    program: { fr: 'École primaire', en: 'Primary school' },
+    period: { start: '2009', end: '2017' },
+    kind: 'school',
+  },
+];

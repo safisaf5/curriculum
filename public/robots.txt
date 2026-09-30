@@ -1,8 +1,8 @@
-# https://safwan.ch — robots.txt
+# https://safwan.ch/robots.txt
 User-agent: *
 Allow: /
 
-# AI / GEO crawlers — explicitly allowed
+# Search and AI answer engines are explicitly welcome
 User-agent: GPTBot
 Allow: /
 
