@@ -233,7 +233,7 @@ export default function Timeline() {
   const onFocusColumn = useCallback((i: number, el: HTMLElement) => revealRef.current(i, el), []);
 
   return (
-    <section id="timeline" aria-labelledby="timeline-title" className="py-section">
+    <section id="timeline" aria-labelledby="timeline-title" className={cn('pt-section', pinned ? 'pb-6' : 'pb-section')}>
       <div className="container-site">
         <SectionHeader
           id="timeline"

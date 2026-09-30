@@ -30,6 +30,8 @@ const PAD_X = 56;
 const PAD_Y = 44;
 /** Display tracking of the site's wide headings (-0.04em). */
 const TRACK = -0.04;
+/** Width available to display type, minus 3% for satori's kerning and rounding. */
+const FIT_WIDTH = (W - PAD_X * 2) * 0.97;
 
 // ── Renderer setup ─────────────────────────────────────────────
 
@@ -65,30 +67,36 @@ const toPng = async (svg: string, width: number) => {
 
 const t = (value: Parameters<typeof localize>[0]) => fontSafe(localize(value, LANG));
 
+/** Capitals are set in the string (not with text-transform) so satori measures what it draws. */
+const upper = (text: string) => text.toLocaleUpperCase('fr-CH');
+
 const monoLabel = (color = OG.ink3, size = 15) =>
   ({
     fontFamily: FAMILY.mono,
     fontSize: size,
     fontWeight: 500,
     letterSpacing: size * 0.12,
-    textTransform: 'uppercase',
     color,
   }) as const;
 
 const ArrowGlyph = ({ color, size }: { color: string; size: number }) => (
-  <svg width={size * 1.5} height={size} viewBox="0 0 16 10" style={{ margin: `0 ${size * 0.35}px` }}>
+  <svg width={size * 1.5} height={size} viewBox="0 0 16 10" style={{ margin: `0 ${size * 0.6}px` }}>
     <path d="M0.5 5 H14.5 M10.5 1 L14.5 5 L10.5 9" stroke={color} strokeWidth={1.1} fill="none" />
   </svg>
 );
 
-/** "2020 → 2024" with a drawn arrow: the font subset has no arrow glyph. */
+/**
+ * "2020 → 2024" with a drawn arrow: the font subset has no arrow glyph.
+ * Mono labels are passed in capitals (not text-transform) so that satori
+ * measures what it draws and right-aligned labels stay inside the margin.
+ */
 const PeriodLabel = ({ period, color, size }: { period: Period; color: string; size: number }) => (
   <div style={{ display: 'flex', alignItems: 'center' }}>
     {formatPeriod(period, LANG)
       .split(' → ')
       .flatMap((part, i) => [
         i > 0 ? <ArrowGlyph key={`a${i}`} color={color} size={size * 0.72} /> : null,
-        <span key={`p${i}`}>{fontSafe(part)}</span>,
+        <span key={`p${i}`}>{upper(fontSafe(part))}</span>,
       ])}
   </div>
 );
@@ -116,7 +124,7 @@ const IndexLabel = ({ index, label }: { index: string; label: string }) => (
   <div style={{ display: 'flex', alignItems: 'center', ...monoLabel() }}>
     <span style={{ color: OG.accentInk }}>{index}</span>
     <div style={{ width: 28, height: 1, backgroundColor: OG.ink3, margin: '0 14px' }} />
-    <span style={{ color: OG.ink }}>{label}</span>
+    <span style={{ color: OG.ink }}>{upper(label)}</span>
   </div>
 );
 
@@ -139,7 +147,6 @@ const Display = ({ lines, size, period }: { lines: string[]; size: number; perio
           fontSize: size,
           lineHeight: 0.86,
           letterSpacing: size * TRACK,
-          textTransform: 'uppercase',
           color: OG.ink,
           marginTop: i ? size * 0.04 : 0,
         }}
@@ -150,9 +157,6 @@ const Display = ({ lines, size, period }: { lines: string[]; size: number; perio
     ))}
   </div>
 );
-
-/** Display text is set in capitals: measure it that way. */
-const upper = (text: string) => text.toLocaleUpperCase('fr-CH');
 
 const host = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
@@ -202,7 +206,7 @@ const DefaultImage = ({ portrait }: { portrait: string }) => {
   const name = fitText(upper(`${profile.givenName} ${profile.familyName}.`), fontMetrics(FONT_FILES.wide800), {
     maxSize: 128,
     minSize: 80,
-    maxWidth: W - PAD_X * 2 - 20,
+    maxWidth: FIT_WIDTH,
     maxLines: 2,
     letterSpacingEm: TRACK,
   });
@@ -232,7 +236,7 @@ const DefaultImage = ({ portrait }: { portrait: string }) => {
         transform: `rotate(${rotate}deg)`,
       }}
     >
-      {universe(id)}
+      {upper(universe(id))}
     </div>
   );
   return (
@@ -240,7 +244,7 @@ const DefaultImage = ({ portrait }: { portrait: string }) => {
       <TopRow>
         <IndexLabel index="01" label={host(SITE_URL)} />
         <span style={monoLabel()}>{`${dms(profile.location.lat, 'N', 'S')} ${dms(profile.location.lng, 'E', 'W')}`}</span>
-        <span style={monoLabel(OG.ink2)}>{`${t(profile.location.city)}, ${t(profile.location.country)}`}</span>
+        <span style={monoLabel(OG.ink2)}>{upper(`${t(profile.location.city)}, ${t(profile.location.country)}`)}</span>
       </TopRow>
 
       <div style={{ display: 'flex', marginTop: 34, width: 700 }}>
@@ -248,7 +252,7 @@ const DefaultImage = ({ portrait }: { portrait: string }) => {
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginLeft: 30, flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', ...monoLabel(OG.ink, 14) }}>
             <div style={{ width: 9, height: 9, backgroundColor: OG.accent, marginRight: 12 }} />
-            {t(profile.title)}
+            {upper(t(profile.title))}
           </div>
           <div style={{ display: 'flex', fontFamily: FAMILY.semiwide, fontWeight: 500, fontSize: 31, lineHeight: 1.14, letterSpacing: -0.62, color: OG.ink }}>
             {t(profile.headline)}
@@ -294,9 +298,8 @@ const STATUS_KEY = {
 const fitName = (text: string) => {
   const name = upper(text);
   const metrics = fontMetrics(FONT_FILES.wide800);
-  const maxWidth = W - PAD_X * 2;
-  const one = fitText(name, metrics, { maxSize: 150, minSize: 60, maxWidth, maxLines: 1, letterSpacingEm: TRACK });
-  const two = fitText(name, metrics, { maxSize: 104, minSize: 60, maxWidth, maxLines: 2, letterSpacingEm: TRACK });
+  const one = fitText(name, metrics, { maxSize: 150, minSize: 60, maxWidth: FIT_WIDTH, maxLines: 1, letterSpacingEm: TRACK });
+  const two = fitText(name, metrics, { maxSize: 104, minSize: 60, maxWidth: FIT_WIDTH, maxLines: 2, letterSpacingEm: TRACK });
   return two.lines.length > 1 && two.size > one.size ? two : one;
 };
 
@@ -304,7 +307,7 @@ const ProjectImage = ({ project }: { project: Project }) => {
   const strings = getStrings('projects', LANG);
   const pdf = getStrings('pdf', LANG);
   const name = fitName(t(project.name));
-  const categories = project.categories.map((c) => fontSafe(strings[CATEGORY_KEY[c]])).join(' · ');
+  const categories = upper(project.categories.map((c) => fontSafe(strings[CATEGORY_KEY[c]])).join(' · '));
   const MOTIF = 236;
   return (
     <Frame>
@@ -321,7 +324,7 @@ const ProjectImage = ({ project }: { project: Project }) => {
           <div style={{ display: 'flex', alignItems: 'center', marginTop: 22, ...monoLabel(OG.ink3, 14) }}>
             {project.period && <PeriodLabel period={project.period} color={OG.ink3} size={14} />}
             {project.period && project.status && <span style={{ margin: '0 12px', color: OG.line }}>/</span>}
-            {project.status && <span style={{ color: OG.accentInk }}>{fontSafe(strings[STATUS_KEY[project.status]])}</span>}
+            {project.status && <span style={{ color: OG.accentInk }}>{upper(fontSafe(strings[STATUS_KEY[project.status]]))}</span>}
           </div>
         </div>
         <div style={{ display: 'flex', marginTop: -8 }}>
@@ -329,7 +332,7 @@ const ProjectImage = ({ project }: { project: Project }) => {
         </div>
       </div>
 
-      <div style={{ position: 'absolute', left: PAD_X, right: PAD_X, bottom: PAD_Y, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', marginTop: 'auto' }}>
         <Display lines={name.lines} size={name.size} />
         <div
           style={{
@@ -341,8 +344,8 @@ const ProjectImage = ({ project }: { project: Project }) => {
             ...monoLabel(OG.ink3, 14),
           }}
         >
-          <span>{fontSafe(`${pdf.ogBy} ${profile.name}`)}</span>
-          <span style={{ color: OG.ink }}>{fontSafe(`${host(SITE_URL)}/projects/${project.slug}`)}</span>
+          <span>{upper(fontSafe(`${pdf.ogBy} ${profile.name}`))}</span>
+          <span style={{ color: OG.ink }}>{upper(`${host(SITE_URL)}/projects/${project.slug}`)}</span>
         </div>
       </div>
     </Frame>

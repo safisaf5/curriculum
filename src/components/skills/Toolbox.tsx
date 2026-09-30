@@ -30,7 +30,7 @@ export const Toolbox = ({ index }: { index: string }) => {
             style={{ '--reveal-delay': `${i * 70}ms` } as React.CSSProperties}
           >
             <p className="label flex items-baseline gap-3 md:col-span-4 lg:col-span-3">
-              <span className="tabular text-ink-3/70">{pad2(i + 1)}</span>
+              <span className="tabular text-ink-3">{pad2(i + 1)}</span>
               <span className="text-ink-2">{l(g.label)}</span>
             </p>
             <ul className="flex flex-wrap gap-y-1 text-[0.98rem] leading-relaxed text-ink md:col-span-7 lg:col-span-8">

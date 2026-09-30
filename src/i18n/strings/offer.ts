@@ -5,7 +5,7 @@ export default defineStrings({
   fr: {
     servicesLabel: 'Services',
     servicesTitle: 'Comment je peux vous aider.',
-    servicesIntro: 'Trois façons de travailler ensemble, du diagnostic à la mise en place.',
+    servicesIntro: 'Pour les PME, les startups et les entrepreneurs qui veulent gagner du temps, réduire leurs coûts et croître plus vite. Trois façons de travailler ensemble, du diagnostic à la mise en place.',
     servicesExamples: 'Exemples',
     servicesDeliverables: 'Livrables',
     servicesCta: 'Discuter de ce service',
@@ -45,7 +45,7 @@ export default defineStrings({
   en: {
     servicesLabel: 'Services',
     servicesTitle: 'How I can help.',
-    servicesIntro: 'Three ways to work together, from diagnosis to rollout.',
+    servicesIntro: 'For SMEs, startups and entrepreneurs who want to save time, cut costs and grow faster. Three ways to work together, from diagnosis to rollout.',
     servicesExamples: 'Examples',
     servicesDeliverables: 'Deliverables',
     servicesCta: 'Discuss this service',

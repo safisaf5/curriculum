@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, type ReactNode } from 'react';
 import type { L, Lang } from '../data/types';
-import { localize } from '../lib/text';
+import { localize, typo } from '../lib/text';
+import type { StringTable } from './define';
 import { localizePath } from '../site';
 import common from './strings/common';
 import nav from './strings/nav';
@@ -31,14 +32,33 @@ export const LangProvider = ({ lang, children }: { lang: Lang; children: ReactNo
 
 export const useLang = () => useContext(LangContext);
 
-/** Typed strings of one namespace for the current language: `const t = useT('nav'); t.about` */
-export const useT = <N extends Namespace>(ns: N) => {
-  const lang = useLang();
-  return strings[ns][lang] as (typeof strings)[N]['fr'];
+// Same typographic polish as the data (curly apostrophes, French spacing),
+// applied once per namespace and language.
+const polished = new Map<string, StringTable>();
+const polish = (ns: Namespace, lang: Lang): StringTable => {
+  const key = `${ns}:${lang}`;
+  let table = polished.get(key);
+  if (!table) {
+    const source = strings[ns][lang] as StringTable;
+    table = Object.fromEntries(
+      Object.entries(source).map(([k, v]) => [
+        k,
+        typeof v === 'string' ? typo(v, lang) : (...args: unknown[]) => typo(String(v(...args)), lang),
+      ]),
+    );
+    polished.set(key, table);
+  }
+  return table;
 };
 
 /** Direct access outside React (prerender, generators). */
-export const getStrings = <N extends Namespace>(ns: N, lang: Lang) => strings[ns][lang] as (typeof strings)[N]['fr'];
+export const getStrings = <N extends Namespace>(ns: N, lang: Lang) => polish(ns, lang) as (typeof strings)[N]['fr'];
+
+/** Typed strings of one namespace for the current language: `const t = useT('nav'); t.about` */
+export const useT = <N extends Namespace>(ns: N) => {
+  const lang = useLang();
+  return getStrings(ns, lang);
+};
 
 /** Localise a data field: `const l = useL(); l(project.name)` */
 export const useL = () => {

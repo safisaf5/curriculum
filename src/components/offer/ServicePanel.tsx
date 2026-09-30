@@ -27,7 +27,7 @@ const SpecList = ({ title, items }: { title: string; items: L[] }) => {
     <div>
       <h4 className="label mb-4 flex items-baseline justify-between gap-3">
         <span>{title}</span>
-        <span aria-hidden="true" className="tabular text-ink-3/70">{pad2(items.length)}</span>
+        <span aria-hidden="true" className="tabular text-ink-3">{pad2(items.length)}</span>
       </h4>
       <ol className="border-t border-line">
         {items.map((item, i) => (

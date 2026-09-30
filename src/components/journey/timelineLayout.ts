@@ -40,6 +40,9 @@ export interface RulerMark {
   lgWidth: number;
 }
 
+/** Rounded so the server and every browser print the exact same string. */
+const r3 = (v: number) => Math.round(v * 1000) / 1000;
+
 /** Where each year starts on the track, as a share of the total width. */
 export const rulerMarks = (years: TimelineYear[]): RulerMark[] => {
   const spans = years.map((y) => spanOf(y.items.length));
@@ -50,7 +53,7 @@ export const rulerMarks = (years: TimelineYear[]): RulerMark[] => {
     return widths.map((w) => {
       const start = (acc / total) * 100;
       acc += w;
-      return { start, width: (w / total) * 100 };
+      return { start: r3(start), width: r3((w / total) * 100) };
     });
   };
   const md = marks('md');

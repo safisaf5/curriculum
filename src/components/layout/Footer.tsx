@@ -95,12 +95,22 @@ export const Footer = () => {
         </div>
 
         {/* Oversized wordmark, cropped by the bottom edge */}
-        <p
+        <svg
           aria-hidden="true"
-          className="pointer-events-none mt-20 select-none whitespace-nowrap font-wide text-[15.5vw] font-extrabold uppercase leading-[0.8] tracking-[-0.045em] text-ink/[0.06] md:mt-28 2xl:text-[14rem]"
+          focusable="false"
+          viewBox="0 0 1000 150"
+          className="pointer-events-none mt-20 block w-full select-none md:mt-28"
         >
-          Safwan<span className="text-accent/40">.</span>
-        </p>
+          <text
+            x="0"
+            y="140"
+            textLength="1000"
+            lengthAdjust="spacingAndGlyphs"
+            className="fill-ink/[0.07] font-wide text-[178px] font-extrabold uppercase"
+          >
+            Safwan<tspan className="fill-accent/50">.</tspan>
+          </text>
+        </svg>
 
         <div className="mt-6 flex flex-col gap-4 border-t border-line pt-6 text-[0.85rem] text-ink-3 sm:flex-row sm:items-center sm:justify-between">
           <p>

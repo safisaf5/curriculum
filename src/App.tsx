@@ -1,8 +1,9 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import type { Lang } from './data/types';
 import { LangProvider } from './i18n';
 import { lazyWithPreload } from './lib/lazy';
+import { setHydrating } from './lib/hydration';
 import { parsePath } from './site';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { SiteLayout } from './components/layout/SiteLayout';
@@ -66,10 +67,17 @@ const pageRoutes = (
   </>
 );
 
+/** Marks the end of the first hydration: later renders are never deferred. */
+const HydrationDone = () => {
+  useEffect(() => setHydrating(false), []);
+  return null;
+};
+
 /** Routes shared by the browser (BrowserRouter) and the prerender (StaticRouter). */
 export default function App() {
   return (
     <ThemeProvider>
+      <HydrationDone />
       <Routes>
         <Route path="/en" element={<LangRoot lang="en" />}>
           {pageRoutes}

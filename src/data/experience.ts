@@ -315,7 +315,7 @@ export const experience: Experience[] = [
   },
   {
     id: 'golden-dreams',
-    role: { fr: 'Stage en téléphonie mobile', en: 'Mobile phone engineering internship' },
+    role: { fr: "Stage d'ingénieur en téléphonie mobile", en: 'Mobile phone engineering internship' },
     company: { fr: 'Golden Dreams Geneva', en: 'Golden Dreams Geneva' },
     period: { start: '2017-04', detail: { fr: '14 avril', en: 'Apr 14' } },
     type: 'internship',

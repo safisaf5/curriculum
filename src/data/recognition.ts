@@ -172,7 +172,7 @@ export const engagement: Engagement[] = [
   },
   {
     id: 'la-trace',
-    name: { fr: 'La Trace', en: 'La Trace' },
+    name: { fr: 'La Trace · groupe solidaire', en: 'La Trace · solidarity group' },
     role: { fr: 'Membre', en: 'Member' },
     period: { start: '2019', end: '2024' },
     kind: { fr: 'Humanitaire', en: 'Humanitarian' },

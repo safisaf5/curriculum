@@ -34,5 +34,10 @@ export const between = (rng: Rng, min: number, max: number) => min + Math.floor(
 /** Float in [min, max). */
 export const range = (rng: Rng, min: number, max: number) => min + rng() * (max - min);
 
-/** Short, stable numbers for SVG path data. */
+/**
+ * Every number that reaches the DOM is rounded: Math.sin / cos / pow can differ
+ * in the last digits between Node (prerender) and the browser, which would
+ * break hydration. Rounding also keeps the path data short.
+ */
 export const n1 = (v: number) => Math.round(v * 10) / 10;
+export const n2 = (v: number) => Math.round(v * 100) / 100;

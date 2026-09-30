@@ -21,7 +21,8 @@ interface ChipProps {
   skill: Skill;
   pressed: boolean;
   previewed: boolean;
-  controls: string;
+  /** Id of the proofs region, only when it exists in the DOM. */
+  controls?: string;
   onSelect: (id: string) => void;
   onPreview: (id: string | null) => void;
 }
@@ -152,7 +153,7 @@ export default function Skills() {
                       )}
                     />
                     <span className="text-ink-2">{l(g.label)}</span>
-                    <span className="tabular text-ink-3/80">{pad2(g.items.length)}</span>
+                    <span className="tabular text-ink-3">{pad2(g.items.length)}</span>
                   </h3>
                   <div className="md:col-span-9">
                     <ul className="mt-4 flex flex-wrap gap-2 md:mt-0 xl:mt-4">
@@ -162,7 +163,7 @@ export default function Skills() {
                             skill={s}
                             pressed={selected === s.id}
                             previewed={active === s.id}
-                            controls={wide ? PANEL_ID : DRAWER_ID}
+                            controls={wide ? PANEL_ID : selected ? DRAWER_ID : undefined}
                             onSelect={select}
                             onPreview={preview}
                           />

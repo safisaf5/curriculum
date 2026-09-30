@@ -85,7 +85,7 @@ export const education: Education[] = [
     id: 'debate-training',
     institution: { fr: 'Club Genevois de Débat', en: 'Geneva Debate Club' },
     program: { fr: 'Formation « Oser parler en public »', en: '"Dare to speak in public" training' },
-    period: { start: '2022-10', detail: { fr: '8 oct. 2022 et 14 oct. 2023', en: 'Oct 8, 2022 and Oct 14, 2023' } },
+    period: { start: '2022-10-08', detail: { fr: 'puis le 14 oct. 2023', en: 'then Oct 14, 2023' } },
     kind: 'course',
     field: { fr: 'Prise de parole', en: 'Public speaking' },
     highlight: true,

@@ -1,16 +1,18 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useSyncExternalStore, type ReactNode } from 'react';
 
 export type Theme = 'light' | 'dark';
 
-interface ThemeContextValue {
-  /** null until mounted (the server cannot know the visitor's theme). */
-  theme: Theme | null;
-  toggleTheme: () => void;
-}
-
-const ThemeContext = createContext<ThemeContextValue>({ theme: null, toggleTheme: () => {} });
-
+/**
+ * Theme state lives in a tiny external store, not in React context: only the
+ * components that read it re-render when it changes. (A context update at the
+ * root would force every not-yet-hydrated section of the page to re-render.)
+ *
+ * The initial class is set by /theme-init.js before the first paint.
+ */
 const THEME_COLORS: Record<Theme, string> = { light: '#F3F1EC', dark: '#0B0B0C' };
+const listeners = new Set<() => void>();
+
+const read = (): Theme => (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
 const apply = (theme: Theme) => {
   const root = document.documentElement;
@@ -19,19 +21,17 @@ const apply = (theme: Theme) => {
   document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
     m.content = THEME_COLORS[theme];
   });
+  listeners.forEach((l) => l());
 };
 
-/**
- * The initial class is set by /theme-init.js before paint. This provider only
- * reads it after mount, persists changes and follows the system setting
- * while the visitor has not chosen explicitly.
- */
+const subscribe = (listener: () => void) => {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+};
+
+/** Mount once: follows the system setting while the visitor has not chosen explicitly. */
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme | null>(null);
-
   useEffect(() => {
-    setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const onChange = (e: MediaQueryListEvent) => {
       let saved: string | null = null;
@@ -40,18 +40,19 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       } catch {
         /* ignore */
       }
-      if (saved) return;
-      const next: Theme = e.matches ? 'dark' : 'light';
-      apply(next);
-      setTheme(next);
+      if (!saved) apply(e.matches ? 'dark' : 'light');
     };
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
   }, []);
+  return <>{children}</>;
+};
 
+/** Current theme (null on the server and during hydration) and a toggle. */
+export const useTheme = () => {
+  const theme = useSyncExternalStore<Theme | null>(subscribe, read, () => null);
   const toggleTheme = useCallback(() => {
-    const current: Theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    const next: Theme = current === 'dark' ? 'light' : 'dark';
+    const next: Theme = read() === 'dark' ? 'light' : 'dark';
     const root = document.documentElement;
     // Avoid every element animating its colours during the switch
     root.classList.add('theme-switching');
@@ -62,10 +63,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     } catch {
       /* ignore */
     }
-    setTheme(next);
   }, []);
-
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+  return { theme, toggleTheme };
 };
-
-export const useTheme = () => useContext(ThemeContext);

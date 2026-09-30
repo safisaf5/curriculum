@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import type { CoverMotif } from '../../data';
-import { between, n1, range, rngFor, type Rng } from './random';
+import { between, n1, n2, range, rngFor, type Rng } from './random';
 
 /**
  * Generated "spec plates" for projects without a cover image.
@@ -142,13 +142,13 @@ const network = ({ W, H, s, rng, compact }: Canvas) => {
     <g>
       <path d={edges.map(([a, b]) => seg(nodes[a], nodes[b])).join('')} fill="none" stroke="currentColor" strokeOpacity={0.26} className={NS} />
       {!compact && (
-        <circle cx={hubs[0].x} cy={hubs[0].y} r={s * 0.11} fill="none" stroke="currentColor" strokeOpacity={0.3} strokeDasharray="2 5" className={NS} />
+        <circle cx={n1(hubs[0].x)} cy={n1(hubs[0].y)} r={n1(s * 0.11)} fill="none" stroke="currentColor" strokeOpacity={0.3} strokeDasharray="2 5" className={NS} />
       )}
       <path d={hubs.map((p) => circle(p.x, p.y, r * 2.8)).join('')} fill="none" stroke="currentColor" strokeOpacity={0.6} className={NS} />
       <path d={nodes.map((p) => circle(p.x, p.y, r)).join('')} fill="currentColor" fillOpacity={0.72} />
       <path d={poly(route)} fill="none" strokeWidth={compact ? 1.25 : 1.75} strokeLinejoin="round" className={`stroke-accent ${NS}`} />
       <path d={route.map((p) => circle(p.x, p.y, r * 1.3)).join('')} className="fill-accent" />
-      <circle cx={last.x} cy={last.y} r={r * 3.4} fill="none" strokeWidth={1.25} className={`stroke-accent ${NS}`} />
+      <circle cx={n1(last.x)} cy={n1(last.y)} r={n1(r * 3.4)} fill="none" strokeWidth={1.25} className={`stroke-accent ${NS}`} />
     </g>
   );
 };
@@ -231,19 +231,19 @@ const circuit = ({ W, H, s, rng, compact }: Canvas) => {
         fill="none"
         stroke="currentColor"
         strokeOpacity={0.42}
-        strokeWidth={s * (compact ? 0.012 : 0.006)}
+        strokeWidth={n1(s * (compact ? 0.012 : 0.006))}
         strokeLinejoin="round"
         strokeLinecap="round"
       />
       {accent && (
-        <path d={poly(accent)} fill="none" strokeWidth={s * (compact ? 0.014 : 0.0075)} strokeLinejoin="round" strokeLinecap="round" className="stroke-accent" />
+        <path d={poly(accent)} fill="none" strokeWidth={n1(s * (compact ? 0.014 : 0.0075))} strokeLinejoin="round" strokeLinecap="round" className="stroke-accent" />
       )}
       <path d={passives.join('')} fill="currentColor" fillOpacity={0.35} />
       <path d={pads.map((p) => square(p.x, p.y, rv * 0.9)).join('')} fill="currentColor" fillOpacity={0.5} />
-      <path d={vias.map((p) => circle(p.x, p.y, rv)).join('')} className="fill-bg-2" stroke="currentColor" strokeOpacity={0.6} strokeWidth={s * 0.004} />
+      <path d={vias.map((p) => circle(p.x, p.y, rv)).join('')} className="fill-bg-2" stroke="currentColor" strokeOpacity={0.6} strokeWidth={n1(s * 0.004)} />
       <path d={vias.filter((p) => p !== accent?.[3]).map(hole).join('')} fill="currentColor" fillOpacity={0.55} />
       {accent && <path d={circle(accent[3].x, accent[3].y, rv) + hole(accent[3])} fillRule="evenodd" className="fill-accent" />}
-      <path d={pinPaths.join('')} stroke="currentColor" strokeOpacity={0.7} strokeWidth={s * 0.012} />
+      <path d={pinPaths.join('')} stroke="currentColor" strokeOpacity={0.7} strokeWidth={n1(s * 0.012)} />
       <rect x={n1(cx - court)} y={n1(cy - court)} width={n1(court * 2)} height={n1(court * 2)} fill="none" stroke="currentColor" strokeOpacity={0.3} strokeDasharray="3 4" className={NS} />
       <rect x={n1(cx - half)} y={n1(cy - half)} width={n1(half * 2)} height={n1(half * 2)} className={`fill-bg ${NS}`} stroke="currentColor" strokeOpacity={0.75} />
       <circle cx={n1(cx - half + pitch * 0.7)} cy={n1(cy - half + pitch * 0.7)} r={n1(s * 0.008)} fill="currentColor" fillOpacity={0.7} />
@@ -325,20 +325,20 @@ const dial = ({ W, H, s, rng, compact }: Canvas) => {
               </text>
             </g>
           )}
-          <circle cx={cx} cy={cy} r={n1(R * 0.66)} fill="none" stroke="currentColor" strokeOpacity={0.28} strokeDasharray="2 5" className={NS} />
+          <circle cx={n1(cx)} cy={n1(cy)} r={n1(R * 0.66)} fill="none" stroke="currentColor" strokeOpacity={0.28} strokeDasharray="2 5" className={NS} />
         </>
       )}
-      <circle cx={cx} cy={cy} r={n1(R + s * 0.035)} fill="none" stroke="currentColor" strokeOpacity={0.35} className={NS} />
-      <circle cx={cx} cy={cy} r={n1(R)} className={`fill-bg ${NS}`} stroke="currentColor" strokeOpacity={0.55} />
+      <circle cx={n1(cx)} cy={n1(cy)} r={n1(R + s * 0.035)} fill="none" stroke="currentColor" strokeOpacity={0.35} className={NS} />
+      <circle cx={n1(cx)} cy={n1(cy)} r={n1(R)} className={`fill-bg ${NS}`} stroke="currentColor" strokeOpacity={0.55} />
       <path d={minor} stroke="currentColor" strokeOpacity={0.5} className={NS} />
-      <path d={major} stroke="currentColor" strokeOpacity={0.85} strokeWidth={s * 0.008} />
-      <circle cx={sx} cy={n1(sy)} r={n1(sr)} fill="none" stroke="currentColor" strokeOpacity={0.45} className={NS} />
+      <path d={major} stroke="currentColor" strokeOpacity={0.85} strokeWidth={n1(s * 0.008)} />
+      <circle cx={n1(sx)} cy={n1(sy)} r={n1(sr)} fill="none" stroke="currentColor" strokeOpacity={0.45} className={NS} />
       {!compact && <path d={subTicks} stroke="currentColor" strokeOpacity={0.5} className={NS} />}
       <path d={seg(secTail, secTip)} strokeWidth={1.5} className={`stroke-accent ${NS}`} />
-      <circle cx={sx} cy={n1(sy)} r={n1(s * 0.006)} className="fill-accent" />
+      <circle cx={n1(sx)} cy={n1(sy)} r={n1(s * 0.006)} className="fill-accent" />
       <path d={hand(305, R * 0.55, R * 0.1, s * 0.026) + hand(60, R * 0.86, R * 0.12, s * 0.016)} fill="currentColor" fillOpacity={0.9} />
-      <circle cx={cx} cy={cy} r={n1(s * 0.016)} fill="currentColor" />
-      <circle cx={cx} cy={cy} r={n1(s * 0.006)} className="fill-bg-2" />
+      <circle cx={n1(cx)} cy={n1(cy)} r={n1(s * 0.016)} fill="currentColor" />
+      <circle cx={n1(cx)} cy={n1(cy)} r={n1(s * 0.006)} className="fill-bg-2" />
     </g>
   );
 };
@@ -406,8 +406,8 @@ const scan = ({ W, H, s, rng, compact }: Canvas) => {
         strokeOpacity={0.2}
         className={NS}
       />
-      <path d={labels} stroke="currentColor" strokeOpacity={0.22} strokeWidth={ch * 0.014} />
-      <path d={values} stroke="currentColor" strokeOpacity={0.5} strokeWidth={ch * 0.03} />
+      <path d={labels} stroke="currentColor" strokeOpacity={0.22} strokeWidth={n1(ch * 0.014)} />
+      <path d={values} stroke="currentColor" strokeOpacity={0.5} strokeWidth={n1(ch * 0.03)} />
       <rect x={n1(x0)} y={n1(scanY - ch * 0.14)} width={n1(cw)} height={n1(ch * 0.14)} className="fill-accent" fillOpacity={0.07} />
       <g className="fill-current font-mono" fillOpacity={0.78}>
         {Array.from({ length: rows }, (_, i) => (
@@ -535,14 +535,14 @@ const thread = ({ W, H, s, rng, compact }: Canvas) => {
       const y = cy + offset + amp * Math.sin(u);
       const dy = amp * Math.cos(u) * ((Math.PI * freq) / R);
       const len = Math.hypot(1, dy);
-      const p = { x: x + ((-dy / len) * width * flip) / 2, y: y + ((1 / len) * width * flip) / 2 };
+      const p = { x: n1(x + ((-dy / len) * width * flip) / 2), y: n1(y + ((1 / len) * width * flip) / 2) };
       flip = -flip;
       if (inside(p)) current.push(p);
       else if (current.length) {
         segments.push(current);
         current = [];
       }
-      const q = { x, y: y + width * 1.1 };
+      const q = { x: n1(x), y: n1(y + width * 1.1) };
       if (inside(q)) center.push(q);
     }
     if (current.length) segments.push(current);
@@ -556,8 +556,8 @@ const thread = ({ W, H, s, rng, compact }: Canvas) => {
   });
   return (
     <g>
-      <circle cx={n1(cx)} cy={cy} r={n1(R + s * 0.03)} fill="none" stroke="currentColor" strokeOpacity={0.35} className={NS} />
-      <circle cx={n1(cx)} cy={cy} r={n1(R)} className={`fill-bg ${NS}`} stroke="currentColor" strokeOpacity={0.55} />
+      <circle cx={n1(cx)} cy={n1(cy)} r={n1(R + s * 0.03)} fill="none" stroke="currentColor" strokeOpacity={0.35} className={NS} />
+      <circle cx={n1(cx)} cy={n1(cy)} r={n1(R)} className={`fill-bg ${NS}`} stroke="currentColor" strokeOpacity={0.55} />
       {!compact && (
         <>
           <rect x={n1(cx - clampW / 2)} y={n1(cy - R - s * 0.085)} width={n1(clampW)} height={n1(s * 0.055)} className={`fill-bg-2 ${NS}`} stroke="currentColor" strokeOpacity={0.5} />
@@ -621,7 +621,7 @@ const flame = ({ W, H, s, rng, compact }: Canvas) => {
   return (
     <g>
       {contours.map((d, k) => (
-        <path key={k} d={d} fill="none" stroke="currentColor" strokeOpacity={0.22 + (0.55 * k) / layers} className={NS} />
+        <path key={k} d={d} fill="none" stroke="currentColor" strokeOpacity={n2(0.22 + (0.55 * k) / layers)} className={NS} />
       ))}
       <path d={core} className="fill-accent" fillOpacity={0.92} />
       <path d={`M${n1(cx - s * 0.44)} ${n1(base + s * 0.02)}H${n1(cx + s * 0.44)}`} stroke="currentColor" strokeOpacity={0.5} className={NS} />

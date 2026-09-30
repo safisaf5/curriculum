@@ -340,7 +340,7 @@ const ProjectDetail = ({ project }: { project: Project }) => {
                     <ArrowLeft aria-hidden="true" size={14} strokeWidth={1.7} className="transition-transform duration-500 ease-out-expo group-hover:-translate-x-1" />
                   )}
                   <span>{label}</span>
-                  <span className="tabular text-ink-3/80">{projectNumber(p)}</span>
+                  <span className="tabular text-ink-3">{projectNumber(p)}</span>
                   {dir === 'next' && (
                     <ArrowRight aria-hidden="true" size={14} strokeWidth={1.7} className="transition-transform duration-500 ease-out-expo group-hover:translate-x-1" />
                   )}

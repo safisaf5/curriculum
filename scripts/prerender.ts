@@ -25,10 +25,13 @@ export const prerender = async () => {
 
   // Preload the main font (hashed file name from the client build)
   const assets = await readdir(join(DIST, 'assets'));
-  const font = assets.find((f) => /^archivo-latin-wdth-normal-.*\.woff2$/.test(f));
-  const preload = font
-    ? `<link rel="preload" href="/assets/${font}" as="font" type="font/woff2" crossorigin />`
-    : '';
+  // Preload both latin font files: a late font swap forces a full relayout of the page
+  const fonts = [/^archivo-latin-wdth-normal-.*\.woff2$/, /^jetbrains-mono-latin-wght-normal-.*\.woff2$/]
+    .map((re) => assets.find((f) => re.test(f)))
+    .filter(Boolean);
+  const preload = fonts
+    .map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />`)
+    .join('\n    ');
 
   const page = (html: string, head: string, lang: string, dataPath: string) =>
     template

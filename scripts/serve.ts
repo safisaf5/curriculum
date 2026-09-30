@@ -7,6 +7,7 @@
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
+import { brotliCompressSync, gzipSync, constants } from 'node:zlib';
 
 const ROOT = 'dist';
 const PORT = Number(process.env.PORT ?? 4173);
@@ -73,7 +74,22 @@ createServer(async (req, res) => {
   }
   const status = file ? 200 : 404;
   file ??= join(ROOT, '404.html');
-  const body = await readFile(file);
-  res.writeHead(status, { 'Content-Type': TYPES[extname(file)] ?? 'application/octet-stream', ...headers });
+  let body: Buffer = await readFile(file);
+  const type = TYPES[extname(file)] ?? 'application/octet-stream';
+  const extra: Record<string, string> = {};
+  // Like Netlify: compress text responses, cache fingerprinted assets forever
+  if (/text|javascript|json|xml|svg|manifest/.test(type) && body.length > 1024) {
+    const accept = String(req.headers['accept-encoding'] ?? '');
+    if (accept.includes('br')) {
+      body = brotliCompressSync(body, { params: { [constants.BROTLI_PARAM_QUALITY]: 9 } });
+      extra['Content-Encoding'] = 'br';
+    } else if (accept.includes('gzip')) {
+      body = gzipSync(body, { level: 9 });
+      extra['Content-Encoding'] = 'gzip';
+    }
+    extra['Vary'] = 'Accept-Encoding';
+  }
+  if (path.startsWith('/assets/')) extra['Cache-Control'] = 'public, max-age=31536000, immutable';
+  res.writeHead(status, { 'Content-Type': type, ...headers, ...extra });
   res.end(body);
 }).listen(PORT, () => console.log(`Preview on http://localhost:${PORT}`));

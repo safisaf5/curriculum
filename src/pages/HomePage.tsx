@@ -13,6 +13,7 @@ import Media from '../components/home/Media';
 import Philosophy from '../components/home/Philosophy';
 import NotesTeaser from '../components/home/NotesTeaser';
 import Contact from '../components/home/Contact';
+import { HydrateOnVisible as Defer } from '../components/layout/HydrateOnVisible';
 
 /**
  * Home page narrative:
@@ -25,20 +26,21 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Identity />
-      <Proof />
-      <WhatIBuild />
-      <ProjectExplorer />
-      <Timeline />
-      <Experience />
-      <Education />
-      <Skills />
-      <Languages />
-      <Services />
-      <Media />
-      <Philosophy />
-      <NotesTeaser />
-      <Contact />
+      {/* Below the fold: server HTML first, React attaches when it comes near */}
+      <Defer id="about"><Identity /></Defer>
+      <Defer id="proof"><Proof /></Defer>
+      <Defer id="build"><WhatIBuild /></Defer>
+      <Defer id="projects"><ProjectExplorer /></Defer>
+      <Defer id="timeline"><Timeline /></Defer>
+      <Defer id="experience"><Experience /></Defer>
+      <Defer id="education"><Education /></Defer>
+      <Defer id="skills"><Skills /></Defer>
+      <Defer id="languages"><Languages /></Defer>
+      <Defer id="services"><Services /></Defer>
+      <Defer id="media"><Media /></Defer>
+      <Defer id="philosophy"><Philosophy /></Defer>
+      <Defer id="notes"><NotesTeaser /></Defer>
+      <Defer id="contact"><Contact /></Defer>
     </>
   );
 }

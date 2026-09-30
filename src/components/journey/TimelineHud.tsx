@@ -16,7 +16,8 @@ interface TimelineHudProps {
 }
 
 /** CSS variables for a position that differs between md and lg widths. */
-const at = (md: number, lg: number) => ({ '--x-md': `${md}%`, '--x-lg': `${lg}%` }) as CSSProperties;
+const r3 = (v: number) => Math.round(v * 1000) / 1000;
+const at = (md: number, lg: number) => ({ '--x-md': `${r3(md)}%`, '--x-lg': `${r3(lg)}%` }) as CSSProperties;
 const POS = 'left-[var(--x-md)] lg:left-[var(--x-lg)]';
 
 /**

@@ -31,7 +31,7 @@ const Heading = ({ service: s, on, emphasis, trailing }: { service: Service; on:
       <span
         className={cn(
           'tabular font-wide text-[2rem] font-extrabold leading-[0.85] tracking-[-0.05em] transition-colors duration-500 sm:text-[2.75rem] lg:text-[3.25rem]',
-          on ? 'text-accent' : 'text-ink-3/70 group-hover:text-ink',
+          on ? 'text-accent' : 'text-ink-3 group-hover:text-ink',
         )}
       >
         {s.index}

@@ -25,7 +25,7 @@ export const languages: SpokenLanguage[] = [
     certification: {
       name: 'Cambridge English B2 First (FCE)',
       detail: { fr: 'Score 172 · grade C', en: 'Score 172 · grade C' },
-      date: '2024-04',
+      date: '2024-04-20',
     },
   },
   {
@@ -36,8 +36,8 @@ export const languages: SpokenLanguage[] = [
     cefrLabel: 'B2',
     certification: {
       name: 'DILI-B2 (AIL Firenze)',
-      detail: { fr: 'Examen passé à Florence', en: 'Exam taken in Florence' },
-      date: '2024-03',
+      detail: { fr: 'Examen passé à Florence (Italie)', en: 'Exam taken in Florence, Italy' },
+      date: '2024-03-16',
     },
   },
   {
@@ -46,7 +46,7 @@ export const languages: SpokenLanguage[] = [
     level: { fr: 'Élémentaire', en: 'Elementary' },
     cefr: 'A2',
     cefrLabel: 'A2',
-    note: { fr: 'Pratiqué pendant le service militaire à Thoune', en: 'Practised during military service in Thun' },
+    note: { fr: 'Acquis pendant le service militaire à Thoune (BE)', en: 'Acquired during military service in Thun (BE)' },
   },
 ];
 
