@@ -19,7 +19,8 @@ export interface EducationLine {
 }
 
 /** Row tracks shared by the rows and the column heads. */
-export const EDU_GRID = 'lg:grid lg:grid-cols-[8.5rem_minmax(0,1fr)_minmax(0,15rem)] lg:gap-x-8';
+export const EDU_GRID =
+  'lg:grid lg:grid-cols-[8.5rem_minmax(0,1fr)_minmax(0,12rem)] lg:gap-x-8 xl:grid-cols-[11rem_minmax(0,1fr)_minmax(0,15rem)]';
 
 const Grade = ({ grade }: { grade: string }) => {
   const [num, den] = grade.split('/');
@@ -37,7 +38,7 @@ export const EducationRow = ({ line, inProgressLabel }: { line: EducationLine; i
   const hasAside = parts.length > 0 || line.level || line.status || line.inProgress;
 
   return (
-    <li className="border-t border-line">
+    <li className="border-t border-line first:border-t-0">
       <article
         aria-labelledby={`edu-${line.id}`}
         className={cn('grid gap-y-3 py-6', EDU_GRID, line.feature ? 'md:py-9' : 'md:py-7')}
@@ -75,7 +76,7 @@ export const EducationRow = ({ line, inProgressLabel }: { line: EducationLine; i
                 {inProgressLabel}
               </p>
             )}
-            {line.status && <p className="tag">{line.status}</p>}
+            {line.status && <p className="tag max-w-full text-left leading-snug">{line.status}</p>}
             {line.level && (
               <span className="tabular font-wide text-[1.9rem] font-extrabold leading-none tracking-[-0.03em] text-ink md:text-[2.25rem]">
                 {line.level}

@@ -2,7 +2,6 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { resolveEntities, type EntityKind, type L, type Service } from '../../data';
 import { useL, useT } from '../../i18n';
 import { track } from '../../lib/analytics';
-import { cn } from '../../lib/cn';
 import { requestContact } from '../../lib/contactIntent';
 import { pad2 } from '../../lib/text';
 import { ButtonLink } from '../ui/Button';
@@ -50,23 +49,17 @@ const SpecList = ({ title, items }: { title: string; items: L[] }) => {
 interface ServicePanelProps {
   service: Service;
   total: number;
-  /** Short fade / rise when the panel appears after a click. */
-  animate?: boolean;
 }
 
 /** Detail of one service: statement, examples, deliverables, proof, call to action. */
-export const ServicePanel = ({ service: s, total, animate }: ServicePanelProps) => {
+export const ServicePanel = ({ service: s, total }: ServicePanelProps) => {
   const l = useL();
   const t = useT('offer');
   const related = resolveEntities(s.related);
 
   return (
-    <div
-      className={cn(
-        'pb-12 sm:pl-[calc(4.75rem+1.25rem)] lg:border-t lg:border-line lg:pb-0 lg:pl-0 lg:pt-8',
-        animate && 'animate-[fade-up_0.55s_cubic-bezier(0.16,1,0.3,1)_both]',
-      )}
-    >
+    // Short fade / rise each time the panel is shown: a CSS animation restarts when `hidden` is removed.
+    <div className="animate-[fade-up_0.55s_cubic-bezier(0.16,1,0.3,1)_both] pb-12 sm:pl-[calc(4.75rem+1.25rem)] lg:border-t lg:border-line lg:pb-0 lg:pl-0 lg:pt-8">
       {/* Desktop heading of the panel (below lg the accordion header is the h3) */}
       <h3 className="label mb-8 hidden items-center gap-3 lg:flex">
         <span aria-hidden="true" className="tabular text-accent-ink">{s.index}</span>

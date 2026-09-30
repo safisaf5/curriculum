@@ -5,7 +5,7 @@ import { cn } from '../../lib/cn';
 /** Shared look of every control: a large, borderless field sitting on a hairline. */
 export const controlClass = (invalid: boolean) =>
   cn(
-    'peer block w-full appearance-none rounded-none border-0 border-b bg-transparent px-0 pb-3 pt-1.5',
+    'peer block w-full appearance-none rounded-none border-0 border-b bg-transparent px-0 pb-3.5 pt-2',
     'text-[1.0625rem] leading-snug text-ink placeholder:text-ink-3/60 sm:text-[1.125rem]',
     'transition-colors duration-300 ease-out-expo',
     // Keep the global accent outline, lighter and further out: it frames the field instead of boxing the text

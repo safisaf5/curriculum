@@ -46,6 +46,7 @@ export const ProjectIndexRow = ({ project, index, open, onToggle, enter }: Proje
     >
       <div
         data-row={project.slug}
+        data-open={open || undefined}
         className="group/row relative grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 py-5 md:grid-cols-12 md:items-baseline md:gap-x-6 md:py-7"
       >
         {/* Phone: number and year on one mono line */}

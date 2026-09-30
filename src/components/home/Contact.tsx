@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { profile } from '../../data';
 import { useReveal, useRevealChildren } from '../../hooks';
 import { useI18n, useT } from '../../i18n';
@@ -7,14 +8,15 @@ import { ContactForm } from '../contact/ContactForm';
 import { sectionNumber } from '../ui/SectionHeader';
 
 /**
- * Word by word rise, masked. Words stay visible without JS, with reduced
- * motion, and after 2.5 s if hydration never happens (same contract as
- * `.reveal` in index.css).
+ * Word by word rise, masked. Words stay visible without JS and with reduced
+ * motion. The 2.5 s safety net (words shown if hydration never happens) is
+ * switched off by the `armed` class once the component has mounted, so the
+ * rise still plays when the visitor reaches the section later.
  */
 const wordClass = cn(
   'inline-block transition-transform duration-[1100ms] ease-out-expo',
   'motion-safe:[.js_.words-in:not(.is-in)_&]:translate-y-[112%]',
-  'motion-safe:[.js_.words-in:not(.is-in)_&]:animate-[reveal-fallback_0.01s_linear_2.5s_forwards]',
+  'motion-safe:[.js_.words-in:not(.is-in):not(.armed)_&]:animate-[reveal-fallback_0.01s_linear_2.5s_forwards]',
 );
 
 /**
@@ -24,6 +26,7 @@ const wordClass = cn(
  */
 const RevealTitle = ({ id, text }: { id: string; text: string }) => {
   const ref = useReveal<HTMLHeadingElement>();
+  useEffect(() => ref.current?.classList.add('armed'), [ref]);
   const words = text.split(/\s+/).filter(Boolean);
   return (
     <h2

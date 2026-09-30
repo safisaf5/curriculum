@@ -90,18 +90,23 @@ export default function Services() {
   const first = services[0]?.id ?? '';
   const [active, setActive] = useState(first);
   const [open, setOpen] = useState<string[]>(first ? [first] : []);
-  // Panels only animate once the visitor has interacted (never on first paint)
-  const [touched, setTouched] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const headers = useRef<(HTMLButtonElement | null)[]>([]);
 
   const selectTab = (id: string) => {
-    setTouched(true);
+    if (id === active) return;
     setActive(id);
+    // The tablist is sticky: if the visitor is deep inside a long panel, bring the new one's top into view
+    // (scroll-padding-top on <html> keeps it clear of the nav).
+    const grid = gridRef.current;
+    if (grid && grid.getBoundingClientRect().top < 0) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      grid.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
   };
 
   const toggle = (id: string) => {
-    setTouched(true);
     setOpen((ids) => (ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]));
   };
 
@@ -142,7 +147,7 @@ export default function Services() {
           intro={<p>{l(t.servicesIntro)}</p>}
         />
 
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-10 xl:gap-x-16">
+        <div ref={gridRef} className="lg:grid lg:grid-cols-12 lg:gap-x-10 xl:gap-x-16">
           {/* Desktop: sticky vertical tablist */}
           <div className="hidden lg:col-span-5 lg:block">
             <div
@@ -218,7 +223,7 @@ export default function Services() {
                     aria-labelledby={desktop ? tabId(s.id) : headerId(s.id)}
                     hidden={!visible}
                   >
-                    <ServicePanel service={s} total={services.length} animate={touched} />
+                    <ServicePanel service={s} total={services.length} />
                   </div>
                 </Fragment>
               );

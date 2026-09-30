@@ -18,9 +18,13 @@ step('Checking content');
 const { execFileSync } = await import('node:child_process');
 execFileSync(process.execPath, ['--import', 'tsx', 'scripts/check-content.ts'], { stdio: 'inherit' });
 
-step('Generating assets from data');
-const { generateAll } = await import('./generate');
-await generateAll();
+if (process.env.SKIP_GENERATE) {
+  step('Skipping asset generation (SKIP_GENERATE set)');
+} else {
+  step('Generating assets from data');
+  const { generateAll } = await import('./generate');
+  await generateAll();
+}
 
 step('Building client bundle');
 await build({ logLevel: 'warn', build: { outDir: 'dist', emptyOutDir: true } });

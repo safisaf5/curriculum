@@ -236,7 +236,13 @@ export const PublicationsSection = () => {
             key={p.id}
             meta={
               <>
-                <span className="text-ink-2">{formatYearMonth(p.date, lang)}</span> · {p.platform}
+                <span className="text-ink-2">{formatYearMonth(p.date, lang)}</span>
+                {/* One line in the narrow side column and in print, two lines in the tablet date column */}
+                <span aria-hidden="true" className="md:hidden lg:inline print:!inline">
+                  {' · '}
+                </span>
+                <br className="hidden md:block lg:hidden print:!hidden" />
+                {p.platform}
               </>
             }
           >

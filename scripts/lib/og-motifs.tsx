@@ -283,13 +283,14 @@ const Flame = () => {
 export const Motif = ({ motif, seed, size }: { motif: CoverMotif; seed: string; size: number }) => {
   if (motif === 'dial') return <Dial size={size} />;
   const rand = seeded(seed);
+  // Called as functions: satori only accepts intrinsic elements inside <svg>.
   const body =
-    motif === 'network' ? <Network rand={rand} /> :
-    motif === 'circuit' ? <Circuit rand={rand} /> :
-    motif === 'scan' ? <Scan /> :
-    motif === 'thread' ? <Thread /> :
-    motif === 'flame' ? <Flame /> :
-    <Grid rand={rand} />;
+    motif === 'network' ? Network({ rand }) :
+    motif === 'circuit' ? Circuit({ rand }) :
+    motif === 'scan' ? Scan() :
+    motif === 'thread' ? Thread() :
+    motif === 'flame' ? Flame() :
+    Grid({ rand });
   return (
     <svg width={size} height={size} viewBox="0 0 240 240">
       {body}

@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import {
   engagement,
   experience,
@@ -28,15 +28,18 @@ const WideEntry = ({ meta, children }: { meta: ReactNode; children: ReactNode })
   </li>
 );
 
-/** Meta column parts: stacked on sm+, one dotted line on phones. */
+/**
+ * Meta column parts: stacked on sm+, one line on phones. The no-break space
+ * glues each dot to the previous item, so a wrapped line never starts with a dot.
+ */
 const MetaExtra = ({ items }: { items: string[] }) => (
   <>
     {items.filter(Boolean).map((item) => (
-      <span key={item} className="cv-meta-extra block sm:mt-1">
+      <span key={item} className="cv-meta-extra sm:mt-1 sm:block">
         <span aria-hidden="true" className="sm:hidden">
-          ·{' '}
+          {'\u00a0· '}
         </span>
-        {item}
+        <span className="whitespace-nowrap">{item}</span>
       </span>
     ))}
   </>
@@ -66,7 +69,7 @@ const ExperienceItem = ({ x }: { x: Experience }) => {
   return (
     <WideEntry
       meta={
-        <div className="flex flex-wrap gap-x-1.5 sm:block">
+        <div>
           <PeriodLabel period={x.period} ongoing={isOngoing(x.period)} stacked className="sm:mb-2" />
           <MetaExtra items={[l(x.location), typeLabel(x.type)]} />
         </div>
@@ -147,18 +150,10 @@ export const ProjectsSection = () => {
                   {pad2(i + 1)}
                 </span>
                 <span className="min-w-0 transition-transform duration-500 ease-out-expo group-hover:translate-x-2">
-                  <span className="font-semibold text-ink">{l(p.name)}</span>
+                  <span className="font-semibold text-ink underline decoration-transparent decoration-1 underline-offset-[0.2em] transition-[text-decoration-color] duration-300 group-hover:decoration-current">{l(p.name)}</span>
                   <span className="cv-project-tagline block text-[0.92rem] leading-snug text-ink-2 sm:ml-2 sm:inline">{l(p.tagline)}</span>
                 </span>
-                <span className="flex items-center gap-2">
-                  <span className="label tabular whitespace-nowrap">{when}</span>
-                  <ArrowRight
-                    aria-hidden="true"
-                    size={14}
-                    strokeWidth={1.6}
-                    className="cv-noprint hidden -translate-x-1 text-accent-ink opacity-0 transition duration-500 ease-out-expo group-hover:translate-x-0 group-hover:opacity-100 sm:block print:hidden"
-                  />
-                </span>
+                <span className="label tabular whitespace-nowrap">{when}</span>
               </SmartLink>
             </li>
           );
@@ -175,7 +170,7 @@ const EngagementItem = ({ e }: { e: Engagement }) => {
   return (
     <WideEntry
       meta={
-        <div className="flex flex-wrap gap-x-1.5 sm:block">
+        <div>
           {e.period && <PeriodLabel period={e.period} ongoing={isOngoing(e.period)} stacked className="sm:mb-2" />}
           {e.period ? <MetaExtra items={[l(e.kind)]} /> : <span className="block">{l(e.kind)}</span>}
         </div>

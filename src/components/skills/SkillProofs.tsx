@@ -103,7 +103,7 @@ export const ProofPanel = ({ id, skill, group, pinned, onClear, stats }: PanelPr
           {t.skillsUsedIn}
         </p>
         {skill && group ? (
-          <div key={skill.id} className="animate-fade-in">
+          <div key={skill.id} className="animate-[fade-in_0.35s_ease-out_both]">
             <p className="mt-5 font-semiwide text-display-s font-semibold text-ink">{l(skill.name)}</p>
             <p className="label mt-3">
               {l(group.label)} <span aria-hidden="true">·</span> {t.skillsProofs(count)}
@@ -125,7 +125,7 @@ export const ProofPanel = ({ id, skill, group, pinned, onClear, stats }: PanelPr
       </div>
       <div className="col-span-5">
         {skill ? (
-          <div key={skill.id} className="animate-fade-in">
+          <div key={skill.id} className="animate-[fade-in_0.35s_ease-out_both]">
             <ProofList skill={skill} />
           </div>
         ) : (

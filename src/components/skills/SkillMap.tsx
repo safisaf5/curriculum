@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { skillGroups } from '../../data';
 import { useReveal } from '../../hooks';
 import { useI18n } from '../../i18n';
@@ -16,7 +16,7 @@ import { CORNERS, LABEL_SIZE, MAP_CX, MAP_CY, MAP_H, MAP_W, RELATED, getMapLayou
  *
  * Styling is hoisted to the root with attribute hooks to keep the
  * prerendered HTML small:
- *   data-e  element fades in when the plate enters the viewport
+ *   data-e  element fades in when the plate enters the viewport (once hydrated)
  *   data-s  ...and grows from its hub (spokes)
  *   data-n  mark scaled up on the compact plate
  */
@@ -73,6 +73,8 @@ export const SkillMap = memo(function SkillMap({ active, selected, onHover, onSe
   const { lang, l } = useI18n();
   const layout = getMapLayout(lang);
   const ref = useReveal<HTMLDivElement>();
+  // Hide-until-revealed only once React runs: the prerendered plate stays visible without JS.
+  useEffect(() => ref.current?.setAttribute('data-ready', ''), [ref]);
 
   const activeNode = active ? layout.byId[active] : undefined;
   const related = useMemo(() => (active ? RELATED[active] ?? {} : {}), [active]);
@@ -93,7 +95,7 @@ export const SkillMap = memo(function SkillMap({ active, selected, onHover, onSe
       className={cn(
         'relative',
         '[&_[data-e]]:transition-[opacity,transform] [&_[data-e]]:duration-1000 [&_[data-e]]:ease-out-expo',
-        '[.js_&:not(.is-in)_[data-e]]:opacity-0 [.js_&:not(.is-in)_[data-s]]:scale-0',
+        '[&[data-ready]:not(.is-in)_[data-e]]:opacity-0 [&[data-ready]:not(.is-in)_[data-s]]:scale-0',
         className,
       )}
     >
@@ -125,7 +127,7 @@ export const SkillMap = memo(function SkillMap({ active, selected, onHover, onSe
               )}
             >
               {l(g.label)}
-              <tspan dx={10} className="fill-ink-3">
+              <tspan dx={12} className="fill-ink-3">
                 {pad2(g.items.length)}
               </tspan>
             </text>

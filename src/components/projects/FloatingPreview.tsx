@@ -10,7 +10,7 @@ const OFFSET = 32;
 const EDGE = 16;
 
 interface FloatingPreviewProps {
-  /** Container of the rows. Each row carries `data-row="<slug>"`. */
+  /** Container of the rows. Each row carries `data-row="<slug>"` (and `data-open` while its panel is open). */
   listRef: RefObject<HTMLElement>;
   projects: Project[];
   /** Reduced motion: no cursor follow, the preview sits still next to the hovered row. */
@@ -85,7 +85,11 @@ export const FloatingPreview = ({ listRef, projects, still }: FloatingPreviewPro
       if (!row) placed = false;
       else if (still) alignTo(row);
     };
-    const rowOf = (el: Element | null) => (el && list.contains(el) ? el.closest<HTMLElement>('[data-row]') : null);
+    // Rows whose panel is open already show their cover: no preview for them
+    const rowOf = (el: Element | null) => {
+      const row = el && list.contains(el) ? el.closest<HTMLElement>('[data-row]') : null;
+      return row && !row.dataset.open ? row : null;
+    };
 
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
@@ -104,15 +108,25 @@ export const FloatingPreview = ({ listRef, projects, still }: FloatingPreviewPro
       if (px < 0) return;
       const row = rowOf(document.elementFromPoint(px, py));
       setRow(row);
-      if (row && still) alignTo(row);
+      if (row) {
+        if (still) alignTo(row);
+        else aim(px, py);
+      }
+    };
+
+    // A panel opened or closed under the cursor: re-check once React has rendered
+    const onClick = () => {
+      if (px >= 0) requestAnimationFrame(onScroll);
     };
 
     list.addEventListener('pointermove', onMove, { passive: true });
     list.addEventListener('pointerleave', onLeave);
+    list.addEventListener('click', onClick);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       list.removeEventListener('pointermove', onMove);
       list.removeEventListener('pointerleave', onLeave);
+      list.removeEventListener('click', onClick);
       window.removeEventListener('scroll', onScroll);
       if (frame) cancelAnimationFrame(frame);
     };

@@ -31,7 +31,10 @@ const ANGLES: Record<Universe['id'], number> = {
 };
 
 const rad = (deg: number) => (deg * Math.PI) / 180;
-const polar = (r: number, deg: number) => ({ x: C + r * Math.cos(rad(deg)), y: C + r * Math.sin(rad(deg)) });
+// Rounded: Node (prerender) and browsers can differ in the last digits of
+// Math.cos/sin, which would make hydration fail on SVG attributes.
+const round = (v: number) => Math.round(v * 100) / 100;
+const polar = (r: number, deg: number) => ({ x: round(C + r * Math.cos(rad(deg))), y: round(C + r * Math.sin(rad(deg))) });
 
 interface DialNode {
   entity: EntityInfo;
@@ -213,7 +216,7 @@ export const EcosystemDial = ({ active, onActivate, className, pointerTarget }: 
             return (
               <path
                 key={`${n.entity.id}-${u}`}
-                d={`M ${n.x} ${n.y} Q ${(n.x + anchor.x) / 2 + (C - (n.x + anchor.x) / 2) * 0.35} ${(n.y + anchor.y) / 2 + (C - (n.y + anchor.y) / 2) * 0.35} ${anchor.x} ${anchor.y}`}
+                d={`M ${n.x} ${n.y} Q ${round((n.x + anchor.x) / 2 + (C - (n.x + anchor.x) / 2) * 0.35)} ${round((n.y + anchor.y) / 2 + (C - (n.y + anchor.y) / 2) * 0.35)} ${anchor.x} ${anchor.y}`}
                 className={cn(
                   'transition-[stroke,stroke-opacity] duration-500',
                   active && lit ? 'stroke-accent' : 'stroke-ink',

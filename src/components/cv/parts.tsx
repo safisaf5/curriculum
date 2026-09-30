@@ -74,7 +74,7 @@ export const PeriodLabel = ({
   const { l, lang } = useI18n();
   const [start, end] = formatPeriod(period, lang).split(' → ');
   return (
-    <span className={cn('flex flex-col', className)}>
+    <span className={cn(stacked ? 'inline-flex flex-col align-top sm:flex' : 'flex flex-col', className)}>
       <span
         className={cn(
           'flex flex-wrap items-center gap-x-1.5 text-ink-2',

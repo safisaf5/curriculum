@@ -64,7 +64,7 @@ const MediaRow = ({ item: m }: { item: MediaItem }) => {
       <ScreenPlate kind={m.type} outlet={l(m.outlet)} typeLabel={typeLabel} linked={false} />
     )
   ) : (
-    <MediaMarker type={m.type as Exclude<MediaType, 'tv' | 'video'>} seed={m.id} lang={lang} />
+    <MediaMarker type={m.type} seed={m.id} lang={lang} />
   );
 
   return (

@@ -26,6 +26,15 @@ interface ChipProps {
   onPreview: (id: string | null) => void;
 }
 
+/** Keyboard focus only (a mouse click already previews through hover). */
+const isKeyboardFocus = (el: Element) => {
+  try {
+    return el.matches(':focus-visible');
+  } catch {
+    return true;
+  }
+};
+
 const SkillChip = ({ skill, pressed, previewed, controls, onSelect, onPreview }: ChipProps) => {
   const { l } = useI18n();
   const t = useT('skills');
@@ -38,10 +47,10 @@ const SkillChip = ({ skill, pressed, previewed, controls, onSelect, onPreview }:
       onClick={() => onSelect(skill.id)}
       onPointerEnter={(e: PointerEvent) => e.pointerType === 'mouse' && onPreview(skill.id)}
       onPointerLeave={(e: PointerEvent) => e.pointerType === 'mouse' && onPreview(null)}
-      onFocus={(e: FocusEvent<HTMLButtonElement>) => e.currentTarget.matches(':focus-visible') && onPreview(skill.id)}
+      onFocus={(e: FocusEvent<HTMLButtonElement>) => isKeyboardFocus(e.currentTarget) && onPreview(skill.id)}
       onBlur={() => onPreview(null)}
       className={cn(
-        'group/chip relative inline-flex min-h-11 items-center gap-2.5 border px-3.5 text-left text-[0.92rem] leading-tight transition-[color,background-color,border-color] duration-300 ease-out-expo xl:min-h-10 xl:px-3',
+        'relative inline-flex min-h-11 items-center gap-2.5 border px-3.5 text-left text-[0.92rem] leading-tight transition-[color,background-color,border-color] duration-300 ease-out-expo xl:min-h-10 xl:px-3',
         pressed
           ? 'border-ink bg-ink text-bg'
           : previewed
@@ -52,8 +61,8 @@ const SkillChip = ({ skill, pressed, previewed, controls, onSelect, onPreview }:
       <span
         aria-hidden="true"
         className={cn(
-          'h-1.5 w-1.5 shrink-0 bg-accent transition-[transform,margin] duration-500 ease-out-expo',
-          pressed ? 'scale-100' : '-mr-4 scale-0',
+          'absolute -right-px -top-px h-2 w-2 origin-top-right bg-accent transition-transform duration-500 ease-out-expo',
+          pressed ? 'scale-100' : 'scale-0',
         )}
       />
       <span>{l(skill.name)}</span>
