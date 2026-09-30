@@ -1,0 +1,21 @@
+{
+  "name": "Safwan Abdirahman",
+  "short_name": "Safwan",
+  "lang": "fr",
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#0E0E0F",
+  "background_color": "#F3F1EC",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

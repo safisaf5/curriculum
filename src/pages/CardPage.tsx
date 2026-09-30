@@ -1,168 +1,190 @@
-import React, { useState } from 'react';
+import { ArrowDown, ArrowLeft, ArrowRight, UserPlus } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Phone, Mail, MessageCircle, Globe, ExternalLink, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { profile } from '../data';
+import { useReducedMotion, useZonedClock } from '../hooks';
+import { useI18n, useT } from '../i18n';
+import { track } from '../lib/analytics';
+import { typo } from '../lib/text';
+import { FILES, localizePath, SITE_URL } from '../site';
+import { ActionList } from '../components/card/ActionList';
+import { ShareButton } from '../components/card/ShareButton';
+import { LangSwitch, ThemeToggle, Wordmark } from '../components/layout/controls';
+import { WatchDial } from '../components/notes/WatchDial';
+import { SmartLink } from '../components/ui/SmartLink';
 
-const CARD_URL = typeof window !== 'undefined' ? window.location.origin + '/card' : 'https://safwan.ch/card';
+/** Always paper and ink, even in dark mode: scanners want dark modules on a light field. */
+const QR_BG = '#F3F1EC';
+const QR_FG = '#0E0E0F';
 
-const actions = [
-  {
-    icon: Phone,
-    labelFr: 'Appeler',
-    labelEn: 'Call',
-    value: '+41 78 963 62 23',
-    href: 'tel:+41789636223',
-    bg: 'bg-slate-800 hover:bg-slate-700',
-    textColor: 'text-white',
-  },
-  {
-    icon: MessageCircle,
-    labelFr: 'WhatsApp',
-    labelEn: 'WhatsApp',
-    value: 'WhatsApp',
-    href: 'https://wa.me/41789636223',
-    bg: 'bg-emerald-500 hover:bg-emerald-400',
-    textColor: 'text-white',
-  },
-  {
-    icon: Mail,
-    labelFr: 'Email',
-    labelEn: 'Email',
-    value: 'abdirahman@safwan.ch',
-    href: 'mailto:abdirahman@safwan.ch',
-    bg: 'bg-brand-600 hover:bg-brand-500',
-    textColor: 'text-white',
-  },
-  {
-    icon: Globe,
-    labelFr: 'Site web',
-    labelEn: 'Website',
-    value: 'safwan.ch',
-    href: '/',
-    bg: 'bg-white/10 hover:bg-white/15 border border-white/20',
-    textColor: 'text-white',
-  },
-];
+const dms = (value: number, pos: string, neg: string) => {
+  const abs = Math.abs(value);
+  const d = Math.floor(abs);
+  const m = Math.round((abs - d) * 60);
+  return `${d}°${String(m).padStart(2, '0')}′${value >= 0 ? pos : neg}`;
+};
 
-const CardPage: React.FC = () => {
-  const [lang, setLang] = useState<'fr' | 'en'>('fr');
-
+/** Geneva time with a tiny live dial (hands rest at 10:10 before hydration). */
+const LocalTime = () => {
+  const t = useT('card');
+  const reduced = useReducedMotion();
+  const time = useZonedClock(profile.location.timeZone);
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
-      {/* Back link */}
-      <div className="absolute top-4 left-4 z-10">
-        <Link
-          to="/"
-          className="flex items-center gap-1.5 text-slate-500 hover:text-white text-sm transition-colors"
-        >
-          <ArrowLeft size={14} />
-          <span className="hidden sm:inline">{lang === 'fr' ? 'Site principal' : 'Main site'}</span>
-        </Link>
-      </div>
-
-      {/* Language toggle */}
-      <div className="absolute top-4 right-4 z-10">
-        <button
-          onClick={() => setLang(lang === 'fr' ? 'en' : 'fr')}
-          className="text-slate-500 hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors"
-        >
-          {lang === 'fr' ? 'EN' : 'FR'}
-        </button>
-      </div>
-
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-brand-600/15 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl" />
-      </div>
-
-      {/* Main card */}
-      <div className="relative flex-1 flex items-center justify-center px-4 py-16">
-        <div className="w-full max-w-sm">
-
-          {/* Profile */}
-          <div className="text-center mb-8">
-            <div className="relative inline-block mb-5">
-              {/* Rings */}
-              <div className="absolute inset-0 rounded-full border border-brand-500/30 scale-110" />
-              <div className="absolute inset-0 rounded-full border border-brand-500/10 scale-125" />
-              <img
-                src="/IMG_8964.JPG"
-                alt="Safwan Abdirahman"
-                width={112}
-                height={112}
-                decoding="async"
-                className="w-28 h-28 rounded-full object-cover object-top border-2 border-brand-500/40 shadow-xl shadow-brand-500/20"
-              />
-              {/* Online dot */}
-              <div className="absolute bottom-1 right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-slate-950 shadow" />
-            </div>
-
-            <h1 className="text-3xl font-bold text-white mb-1">Safwan Abdirahman</h1>
-            <p className="text-brand-400 font-semibold text-sm mb-3">
-              {lang === 'fr' ? 'Entrepreneur Tech · Consultant IA' : 'Tech Entrepreneur · AI Consultant'}
-            </p>
-            <p className="text-slate-400 text-sm leading-relaxed max-w-[260px] mx-auto">
-              {lang === 'fr'
-                ? "J'aide les entreprises à automatiser et croître avec l'IA."
-                : 'I help businesses automate and grow with AI.'}
-            </p>
-          </div>
-
-          {/* Action buttons */}
-          <div className="space-y-3 mb-8">
-            {actions.map((action) => {
-              const Icon = action.icon;
-              return (
-                <a
-                  key={action.href}
-                  href={action.href}
-                  target={action.href.startsWith('http') ? '_blank' : undefined}
-                  rel={action.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className={`${action.bg} ${action.textColor} flex items-center gap-4 w-full px-5 py-4 rounded-2xl font-semibold transition-all duration-200 active:scale-98 hover:-translate-y-px`}
-                >
-                  <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Icon size={18} />
-                  </div>
-                  <div className="flex-1 text-left">
-                    <div className="text-xs opacity-70">
-                      {lang === 'fr' ? action.labelFr : action.labelEn}
-                    </div>
-                    <div className="text-sm font-semibold truncate">{action.value}</div>
-                  </div>
-                  <ExternalLink size={14} className="opacity-40 flex-shrink-0" />
-                </a>
-              );
-            })}
-          </div>
-
-          {/* QR Code */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center">
-            <p className="text-slate-400 text-xs mb-3 uppercase tracking-wider font-medium">
-              {lang === 'fr' ? 'Scannez pour me contacter' : 'Scan to connect with me'}
-            </p>
-            <div className="flex justify-center mb-3">
-              <div className="bg-white p-3 rounded-xl">
-                <QRCodeSVG
-                  value={CARD_URL}
-                  size={128}
-                  bgColor="#ffffff"
-                  fgColor="#0f172a"
-                  level="M"
-                />
-              </div>
-            </div>
-            <p className="text-slate-600 text-xs">{CARD_URL}</p>
-          </div>
-
-          {/* Location tag */}
-          <div className="mt-6 text-center">
-            <span className="text-slate-600 text-xs">📍 Genève, Suisse</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <p className="label flex items-center justify-end gap-2" title={t.cardTime}>
+      <span className="block h-[1.125rem] w-[1.125rem]">
+        <WatchDial variant="mini" h={time?.h ?? 10} m={time?.m ?? 10} s={reduced ? null : (time?.s ?? 30)} />
+      </span>
+      <span className="sr-only">{t.cardTime} </span>
+      <span className="tabular text-ink-2">{time?.label ?? '--:--'}</span>
+      <span>{time?.zone ?? ''}</span>
+    </p>
   );
 };
 
-export default CardPage;
+/**
+ * /card: the digital business card. Standalone page (no site nav/footer),
+ * designed for a phone first: someone scans the QR code at a meeting and
+ * lands here to save the contact, call or write.
+ *  - phone: full bleed, identity → add to contacts → contact rows → QR stub;
+ *  - tablet: the same column as a paper card on the desk;
+ *  - desktop: the card gets a perforated stub on the right with the QR code,
+ *    so it can be scanned straight from the screen.
+ */
+export default function CardPage() {
+  const { lang, l } = useI18n();
+  const t = useT('card');
+  const cardUrl = `${SITE_URL}${localizePath('/card', lang)}`;
+  const displayUrl = cardUrl.replace(/^https?:\/\//, '');
+  const { location } = profile;
+  const coords = `${dms(location.lat, 'N', 'S')} ${dms(location.lng, 'E', 'W')}`;
+
+  return (
+    <div className="flex min-h-[100svh] flex-col bg-bg text-ink md:bg-bg-2">
+      <header className="container-site flex h-16 shrink-0 items-center justify-between gap-4">
+        <SmartLink
+          to="/"
+          className="group -ml-2 inline-flex min-h-11 items-center gap-2 px-2 text-[0.9rem] text-ink-2 transition-colors hover:text-ink"
+        >
+          <ArrowLeft
+            aria-hidden="true"
+            size={16}
+            strokeWidth={1.6}
+            className="transition-transform duration-500 ease-out-expo group-hover:-translate-x-1"
+          />
+          {t.cardBack}
+        </SmartLink>
+        <div className="-mr-2 flex items-center gap-1">
+          <LangSwitch />
+          <ThemeToggle />
+        </div>
+      </header>
+
+      <main id="main" className="flex flex-1 justify-center md:items-center md:px-6 md:pb-16 md:pt-4">
+        <article
+          aria-labelledby="card-name"
+          className="grain w-full animate-fade-up md:max-w-[30rem] md:border md:border-line md:bg-surface lg:flex lg:max-w-none lg:w-auto"
+        >
+          {/* Front: identity, main action, contact rows */}
+          <div className="container-site pb-10 pt-4 md:px-8 md:pb-8 md:pt-8 lg:w-[30rem]">
+            <div className="flex items-start justify-between gap-4">
+              <img
+                src="/images/portrait-square-600.jpg"
+                width={600}
+                height={600}
+                alt={l(profile.portrait.alt)}
+                decoding="async"
+                className="h-24 w-24 shrink-0 bg-bg-2 object-cover md:h-28 md:w-28"
+              />
+              <div className="space-y-1.5 text-right">
+                <p className="label flex items-center justify-end gap-2">
+                  {t.cardTitle}
+                  <span aria-hidden="true" className="h-1.5 w-1.5 bg-accent" />
+                </p>
+                <LocalTime />
+              </div>
+            </div>
+
+            <h1
+              id="card-name"
+              className="mt-7 font-wide text-[clamp(2.1rem,10.4vw,2.75rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-ink"
+            >
+              <span className="block">{profile.givenName}</span>
+              <span className="block">
+                {profile.familyName}
+                <span aria-hidden="true" className="text-accent">
+                  .
+                </span>
+              </span>
+            </h1>
+            <p lang={lang === 'en' ? undefined : 'en'} className="mt-4 font-semiwide text-[1.05rem] font-medium tracking-[-0.01em] text-ink">
+              {t.cardRole}
+            </p>
+            <p className="label mt-2">
+              {l(location.city)}, {l(location.country)}
+            </p>
+
+            <a
+              href={FILES.vcard}
+              type="text/vcard"
+              onClick={() => track('vcard_download', { from: 'card', mode: 'open' })}
+              className="btn btn-primary mt-7 min-h-14 w-full justify-between"
+            >
+              <span className="flex items-center gap-3">
+                <UserPlus aria-hidden="true" size={18} strokeWidth={1.6} className="shrink-0" />
+                <span>{t.cardAdd}</span>
+              </span>
+              <ArrowRight aria-hidden="true" size={17} strokeWidth={1.6} className="btn-arrow shrink-0" />
+            </a>
+
+            <div className="mt-8">
+              <ActionList />
+            </div>
+          </div>
+
+          {/* Stub: QR code, keep or pass on the card */}
+          <aside
+            aria-label={t.cardScan}
+            className="container-site flex flex-col border-t border-dashed border-line py-10 md:px-8 md:py-8 lg:w-[18rem] lg:border-l lg:border-t-0"
+          >
+            <figure className="mx-auto w-full max-w-[14rem] animate-fade-in [animation-delay:300ms] lg:mb-8 lg:max-w-none">
+              <div style={{ backgroundColor: QR_BG }}>
+                <QRCodeSVG
+                  value={cardUrl}
+                  size={224}
+                  level="M"
+                  includeMargin
+                  bgColor={QR_BG}
+                  fgColor={QR_FG}
+                  role="img"
+                  aria-label={t.cardQr(displayUrl)}
+                  style={{ display: 'block', width: '100%', height: 'auto' }}
+                />
+              </div>
+              <figcaption className="mt-4 text-center lg:text-left">
+                <span className="label block">{t.cardScan}</span>
+                <span className="mt-1.5 block break-all font-mono text-[0.8rem] text-ink-2">{displayUrl}</span>
+              </figcaption>
+            </figure>
+
+            <div className="mx-auto mt-8 grid w-full max-w-[24rem] gap-2 sm:grid-cols-2 lg:mt-7 lg:max-w-none lg:grid-cols-1">
+              <a
+                href={FILES.vcard}
+                download
+                onClick={() => track('vcard_download', { from: 'card', mode: 'download' })}
+                className="btn btn-outline px-3 text-[0.875rem]"
+              >
+                <ArrowDown aria-hidden="true" size={16} strokeWidth={1.6} className="btn-arrow btn-arrow-down shrink-0" />
+                <span>{t.cardDownload}</span>
+              </a>
+              <ShareButton title={typo(`${profile.name} · ${t.cardTitle}`, lang)} url={cardUrl} className="px-3 text-[0.875rem]" />
+            </div>
+
+            <div className="mt-10 flex items-end justify-between gap-4 border-t border-line pt-4 lg:mt-auto">
+              <Wordmark className="text-[0.95rem]" />
+              <span className="label tabular">{coords}</span>
+            </div>
+          </aside>
+        </article>
+      </main>
+    </div>
+  );
+}

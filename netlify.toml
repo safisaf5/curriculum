@@ -2,16 +2,32 @@
   publish = "dist"
   command = "npm run build"
 
-# ── Security headers (apply to every route) ──
+[build.environment]
+  NODE_VERSION = "22"
+
+# Every route is prerendered to static HTML (see scripts/prerender.ts).
+# Clean URLs are handled by the generated dist/_redirects; unknown URLs
+# get dist/404.html with a real 404 status. No SPA catch-all on purpose.
+
+# ── Old CV PDF (removed): keep former links working ──
+[[redirects]]
+  from = "/CV%20Safwan%20.pdf"
+  to = "/files/Safwan-Abdirahman-CV-FR.pdf"
+  status = 301
+  force = true
+
+# ── Security headers (every route) ──
 [[headers]]
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
 
 # ── Long-term caching for fingerprinted assets ──
 [[headers]]
@@ -19,8 +35,27 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# SPA fallback — only used when no static file matches
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# ── Downloads: CV and contact card ──
+[[headers]]
+  for = "/files/*.pdf"
+  [headers.values]
+    Content-Type = "application/pdf"
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/files/*.vcf"
+  [headers.values]
+    Content-Type = "text/vcard; charset=utf-8"
+    Content-Disposition = "inline; filename=\"safwan-abdirahman.vcf\""
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/og/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Cross-Origin-Resource-Policy = "cross-origin"
