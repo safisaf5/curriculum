@@ -91,7 +91,25 @@ CV PDF, vCard, JSON-LD, sitemap, llms.txt, images Open Graph.
 4. construit le bundle de pré-rendu et génère une page HTML statique par route et par langue (`scripts/prerender.ts`), plus `404.html`, `sitemap.xml`, `llms.txt` et `_redirects`.
 
 Le HTML contient le vrai contenu (SEO, aperçus de liens, robots IA, affichage sans JavaScript) ; React « hydrate » ensuite la page.
-`npm run preview` sert `dist/` comme Netlify (URL propres, 404, en-têtes de sécurité, CSP).
+`npm run preview` sert `dist/` comme Netlify (URL propres, 404, en-têtes de sécurité, CSP, compression).
+`SKIP_GENERATE=1 npm run build` saute l'étape 2 (utile pour itérer vite sur l'interface).
+
+Déploiement Netlify : commande `npm run build`, dossier `dist`, Node 22 (tout est dans `netlify.toml`).
+Le formulaire de contact est détecté par Netlify dans le HTML pré-rendu ; les notifications
+(e-mail à chaque message) se règlent dans l'interface Netlify, rubrique *Forms*.
+
+### Performance
+
+- Pages pré-rendues : le contenu s'affiche avant le JavaScript.
+- Hydratation dans une transition (`startTransition`) : la page reste fluide pendant que React s'attache.
+- Hydratation progressive de l'accueil (`HydrateOnVisible`) : chaque section garde son HTML serveur et
+  ne devient interactive qu'à l'approche de l'écran, au premier clavier, ou quand le navigateur est inactif.
+- Thème lu depuis un store externe (`useSyncExternalStore`) : aucun rendu racine pendant l'hydratation.
+- Code découpé par page (CV, carte, notes), polices variables auto-hébergées et préchargées, portrait AVIF/WebP.
+- Coordonnées SVG arrondies : le rendu serveur (Node) et navigateur sont identiques au caractère près.
+
+Lighthouse (build de production, serveur de prévisualisation) : bureau 100 / 100 / 100 / 100 ;
+mobile (4G simulée, CPU ×4) performance 89 à 96 selon la page, accessibilité, bonnes pratiques et SEO 100.
 
 ## 7. SEO et partage
 
