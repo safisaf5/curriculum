@@ -59,7 +59,7 @@ export const media: MediaItem[] = [
     id: 'eloquence-stage-2024',
     type: 'stage',
     title: { fr: "Concours genevois d'éloquence 2024", en: 'Geneva Eloquence Contest 2024' },
-    outlet: { fr: '2e prix du meilleur discours', en: '2nd prize for best speech' },
+    outlet: { fr: 'Finaliste', en: 'Finalist' },
     date: '2024-03',
     description: {
       fr: 'Sujet défendu à la positive : « Qu’importe le flacon, pourvu qu’on ait l’ivresse » (Alfred de Musset). Jury : Me Tamim Mahmoud, Me Mitra Sohrabi, M. Ziad El May.',
@@ -98,7 +98,7 @@ export const media: MediaItem[] = [
 export const awards: Award[] = [
   {
     id: 'eloquence-2024',
-    title: { fr: '2e prix du meilleur discours', en: '2nd prize for best speech' },
+    title: { fr: 'Finaliste', en: 'Finalist' },
     event: { fr: "Concours genevois d'éloquence 2024", en: 'Geneva Eloquence Contest 2024' },
     date: '2024-03-28',
     details: {

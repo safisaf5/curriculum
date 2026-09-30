@@ -19,7 +19,7 @@ comment le site est organisé et comment il se construit.
 | Carte de visite `/card` + QR code | Oui | Oui + vCard, « Ajouter aux contacts », partage |
 | Formulaires | Aucun (Netlify Forms activé mais inutilisé) | Formulaire de contact Netlify Forms (anti-spam, validation, repli e-mail) |
 | Liens | mailto, tel, wa.me, LinkedIn, neuronia.ch, sbsa.agency, RTS, YouTube | Tous conservés |
-| Assets | `IMG_8964.JPG`, `Favicon.jpg`, `favicon.svg`, `CV Safwan .pdf` | Conservés ; portrait décliné en AVIF/WebP/JPEG (`public/images`) ; nouveau favicon |
+| Assets | `IMG_8964.JPG`, `Favicon.jpg`, `favicon.svg` | Conservés (l'ancien `CV Safwan .pdf` est supprimé et redirigé vers le CV FR) ; portrait décliné en AVIF/WebP/JPEG (`public/images`) ; nouveau favicon |
 | SEO | title, meta, OG, Twitter, 5 blocs JSON-LD (dont 2 ProfilePage en double), canonical en double, hreflang incorrect, sitemap (3 URL), robots.txt, llms.txt | Head par page, JSON-LD `@graph` (Person, WebSite, ProfilePage, projets, fil d'Ariane), hreflang corrects, sitemap et llms.txt générés depuis les données |
 | Déploiement | Netlify (build lancé depuis Bolt.new), en-têtes de sécurité, repli SPA | Netlify direct (`npm run build`), en-têtes renforcés, vraie 404 |
 | Phrase « Agir avec excellence, servir avec conscience. » | Footer + Contact | Supprimée partout (demande explicite) |

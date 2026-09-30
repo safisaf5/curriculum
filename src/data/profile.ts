@@ -43,8 +43,7 @@ export const profile: Profile = {
     phone: '+41 78 963 62 23',
     phoneE164: '+41789636223',
     whatsapp: 'https://wa.me/41789636223',
-    // Two different LinkedIn URLs existed in the previous site (/in/safwanab in the CV,
-    // /in/safwan-abdirahman in the footer). The CV one is used here: verify it.
+    // Confirmed by Safwan (Sept. 2026).
     linkedin: 'https://www.linkedin.com/in/safwanab',
     website: 'https://safwan.ch',
   },
@@ -111,8 +110,8 @@ export const profile: Profile = {
         en: 'Debate, public speaking, presenting, negotiation, client relations',
       },
       body: {
-        fr: "Lauréat du Concours genevois d'éloquence 2024, invité de la RTS, formateur IA devant une trentaine de personnes, président d'une association faîtière d'élèves.",
-        en: 'Prize winner at the 2024 Geneva Eloquence Contest, featured on Swiss TV (RTS), AI trainer for a room of thirty, president of a student umbrella association.',
+        fr: "Finaliste du Concours genevois d'éloquence 2024, invité de la RTS, formateur IA devant une trentaine de personnes, président d'une association faîtière d'élèves.",
+        en: 'Finalist at the 2024 Geneva Eloquence Contest, featured on Swiss TV (RTS), AI trainer for a room of thirty, president of a student umbrella association.',
       },
       evidence: ['eloquence-2024', 'rts-2024', 'ai-workshop-2025', 'geunes'],
     },

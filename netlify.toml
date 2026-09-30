@@ -9,6 +9,13 @@
 # Clean URLs are handled by the generated dist/_redirects; unknown URLs
 # get dist/404.html with a real 404 status. No SPA catch-all on purpose.
 
+# ── Old CV PDF (removed): keep former links working ──
+[[redirects]]
+  from = "/CV%20Safwan%20.pdf"
+  to = "/files/Safwan-Abdirahman-CV-FR.pdf"
+  status = 301
+  force = true
+
 # ── Security headers (every route) ──
 [[headers]]
   for = "/*"

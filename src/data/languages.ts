@@ -11,9 +11,9 @@ export const languages: SpokenLanguage[] = [
   {
     code: 'AR',
     name: { fr: 'Arabe', en: 'Arabic' },
-    level: { fr: 'Courant', en: 'Fluent' },
-    cefr: 'C1',
-    cefrLabel: 'B2-C1',
+    level: { fr: 'Intermédiaire', en: 'Intermediate' },
+    cefr: 'B1',
+    cefrLabel: 'B1',
     note: { fr: 'École arabe de Genève, 2010 à 2020', en: 'Arabic School of Geneva, 2010 to 2020' },
   },
   {
@@ -43,9 +43,9 @@ export const languages: SpokenLanguage[] = [
   {
     code: 'DE',
     name: { fr: 'Allemand', en: 'German' },
-    level: { fr: 'Élémentaire', en: 'Elementary' },
-    cefr: 'A2',
-    cefrLabel: 'A2',
+    level: { fr: 'Intermédiaire', en: 'Intermediate' },
+    cefr: 'B1',
+    cefrLabel: 'B1',
     note: { fr: 'Acquis pendant le service militaire à Thoune (BE)', en: 'Acquired during military service in Thun (BE)' },
   },
 ];

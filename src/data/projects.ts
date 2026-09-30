@@ -35,10 +35,7 @@ export const projects: Project[] = [
       fr: "Des agents IA privés, spécialisés par métier et hébergés en Suisse pour la confidentialité des données. L'offre annonce un déploiement en 7 jours et un gain moyen de 10 heures par semaine.",
       en: 'Private AI agents, each specialised in a job and hosted in Switzerland to keep data confidential. The offer states a 7-day deployment and an average of 10 hours saved per week.',
     },
-    role: {
-      fr: 'Conception du produit et développement de la plateforme.',
-      en: 'Product design and platform development.',
-    },
+    role: { fr: 'CEO', en: 'CEO' },
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Framer Motion', 'AI Agents'],
     links: [{ label: { fr: 'neuronia.ch', en: 'neuronia.ch' }, href: 'https://neuronia.ch' }],
     milestones: [{ date: '2026', title: { fr: 'Lancement de la plateforme', en: 'Platform launch' } }],

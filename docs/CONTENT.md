@@ -67,21 +67,19 @@ npm run build     # build complet
 npm run preview   # http://localhost:4173, comme en production
 ```
 
-## Points à confirmer (repérés pendant la refonte)
+## Points confirmés (septembre 2026)
 
-Les anciennes données se contredisaient sur quelques points. Le choix retenu est indiqué ; à corriger dans `src/data` si besoin.
-
-| Sujet | Versions trouvées | Retenu |
-|---|---|---|
-| URL LinkedIn | `/in/safwanab` (CV) et `/in/safwan-abdirahman` (footer, JSON-LD) | `/in/safwanab` |
-| Concours d'éloquence 2024 | « premier prix / vainqueur » et « 2e prix du meilleur discours, 28 mars 2024 » | 2e prix du meilleur discours |
-| Cirque du Soleil | 2024, « Vendeur » et mai-juin 2025, « Opérations concessions & merchandising » | mai → juin 2025 |
-| Collège Voltaire | 2019-2024 et 2020-2024 | 2020 → 2024 (Cycle : 2017 → 2020) |
-| Arabe | « natif » et « courant B2-C1 » | Courant, B2-C1 |
-| Allemand | A2 et A2-B1 | A2 |
-| Patente de cafetier | 2024 et 2025 | Formation sept. → nov. 2024 |
-| Participants à l'atelier IA | « 30+ » et « ~30 » | environ 30 |
-| Rôle dans Neuron IA | non précisé | « Conception du produit et développement de la plateforme » |
-| Site de Heal ElectroniX | absent de l'ancien site | `helectronix.com` (trouvé sur le compte Netlify) |
-| CMS EPFL (sept. 2025 → juil. 2026) | « en cours » | période affichée sans statut (ajouter le résultat) |
-| Ancien PDF `/CV Safwan .pdf` | ancien CV, plus à jour | laissé en place pour ne pas casser d'anciens liens ; peut être supprimé |
+| Sujet | Version validée |
+|---|---|
+| URL LinkedIn | `linkedin.com/in/safwanab` |
+| Concours d'éloquence 2024 | Finaliste (28 mars 2024), sans mention de classement |
+| Cirque du Soleil | mai → juin 2025, « Opérations concessions & merchandising » |
+| Collège Voltaire | 2020 → 2024 (Cycle : 2017 → 2020) |
+| Arabe | B1 |
+| Allemand | B1 |
+| Patente de cafetier | Formation sept. → nov. 2024 |
+| Participants à l'atelier IA | environ 30 |
+| Rôle dans Neuron IA | CEO |
+| Site de Heal ElectroniX | `helectronix.com` |
+| Cours EPFL (sept. 2025 → juil. 2026) | période affichée sans statut ni résultat |
+| Ancien PDF `/CV Safwan .pdf` | supprimé ; redirection 301 vers `/files/Safwan-Abdirahman-CV-FR.pdf` (netlify.toml) |

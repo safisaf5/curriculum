@@ -7,7 +7,7 @@ import { defineStrings } from '../define';
 const EVIDENCE_SHORT: Record<string, { fr: string; en: string }> = {
   'heg-scala-iot': { fr: 'Scala & IoT', en: 'Scala & IoT' },
   'ifage-cafetier': { fr: 'Patente de cafetier', en: 'Restaurant licence' },
-  'eloquence-2024': { fr: 'Éloquence, 2e prix', en: 'Eloquence, 2nd prize' },
+  'eloquence-2024': { fr: 'Éloquence, finaliste', en: 'Eloquence, finalist' },
   'rts-2024': { fr: 'RTS', en: 'RTS' },
   'ai-workshop-2025': { fr: 'Atelier IA', en: 'AI workshop' },
   geunes: { fr: 'Président GEunes', en: 'GEunes president' },

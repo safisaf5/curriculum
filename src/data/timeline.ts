@@ -69,8 +69,8 @@ export const timelineChapters: Omit<TimelineChapter, 'items'>[] = [
     year: 2024,
     title: { fr: 'Sur scène et sur le terrain', en: 'On stage and in the field' },
     body: {
-      fr: "2e prix au Concours d'éloquence, la RTS, une maturité avec mention, un scanner MRZ.",
-      en: 'Second prize at the Eloquence Contest, Swiss TV, the Matura with honours, an MRZ scanner.',
+      fr: "Finaliste du Concours d'éloquence, la RTS, une maturité avec mention, un scanner MRZ.",
+      en: 'Finalist at the Eloquence Contest, Swiss TV, the Matura with honours, an MRZ scanner.',
     },
   },
   {
