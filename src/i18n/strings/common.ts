@@ -28,6 +28,10 @@ export default defineStrings({
     proof: 'Preuves',
     and: 'et',
     imageMissing: 'Image indisponible',
+    errorLabel: 'Erreur',
+    errorTitle: 'Cette page ne s’est pas chargée.',
+    errorBody: 'Un problème de réseau ou une mise à jour du site a interrompu le chargement. Recharger la page règle presque toujours le problème.',
+    errorReload: 'Recharger la page',
   },
   en: {
     skipToContent: 'Skip to content',
@@ -56,5 +60,9 @@ export default defineStrings({
     proof: 'Proof',
     and: 'and',
     imageMissing: 'Image unavailable',
+    errorLabel: 'Error',
+    errorTitle: 'This page did not load.',
+    errorBody: 'A network issue or a site update interrupted loading. Reloading the page almost always fixes it.',
+    errorReload: 'Reload the page',
   },
 });

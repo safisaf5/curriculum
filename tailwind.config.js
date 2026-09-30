@@ -82,6 +82,10 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.25' },
         },
+        loading: {
+          '0%': { transform: 'translate3d(-100%, 0, 0)' },
+          '100%': { transform: 'translate3d(300%, 0, 0)' },
+        },
       },
       animation: {
         'rise-in': 'rise-in 1s cubic-bezier(0.16, 1, 0.3, 1) both',
@@ -91,6 +95,7 @@ export default {
         'page-in': 'page-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both',
         marquee: 'marquee 40s linear infinite',
         blink: 'blink 2.4s ease-in-out infinite',
+        loading: 'loading 1.1s cubic-bezier(0.76, 0, 0.24, 1) infinite',
       },
     },
   },

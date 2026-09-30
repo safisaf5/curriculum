@@ -1,11 +1,12 @@
 import { Suspense } from 'react';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import type { Lang } from './data/types';
 import { LangProvider } from './i18n';
 import { lazyWithPreload } from './lib/lazy';
 import { parsePath } from './site';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { SiteLayout } from './components/layout/SiteLayout';
+import { ErrorBoundary } from './components/layout/ErrorBoundary';
 import { useDocumentHead } from './seo/useDocumentHead';
 import HomePage from './pages/HomePage';
 import ProjectPage from './pages/ProjectPage';
@@ -28,13 +29,25 @@ export const preloadRoute = async (pathname: string) => {
 
 export const preloadAll = () => Promise.all([CvPage.preload(), CardPage.preload(), NotesPage.preload(), NotePage.preload()]);
 
+/** Shown while a code-split page loads during client navigation. */
+const PageLoading = () => (
+  <div className="min-h-screen bg-bg" aria-busy="true">
+    <div className="fixed inset-x-0 top-0 h-[2px] overflow-hidden">
+      <div className="h-full w-1/3 animate-loading bg-accent" />
+    </div>
+  </div>
+);
+
 const LangRoot = ({ lang }: { lang: Lang }) => {
   useDocumentHead();
+  const { pathname } = useLocation();
   return (
     <LangProvider lang={lang}>
-      <Suspense fallback={<div className="min-h-screen bg-bg" aria-busy="true" />}>
-        <Outlet />
-      </Suspense>
+      <ErrorBoundary resetKey={pathname}>
+        <Suspense fallback={<PageLoading />}>
+          <Outlet />
+        </Suspense>
+      </ErrorBoundary>
     </LangProvider>
   );
 };
