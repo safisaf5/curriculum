@@ -48,7 +48,21 @@ export default defineStrings({
     backToProjects: 'Tous les projets',
     coverAlt: (name: string) => `Visuel généré pour le projet ${name}`,
 
-    // Timeline
+    // Explorer index and project page details
+    projectNo: 'N°',
+    colProject: 'Projet',
+    colBrief: 'En bref',
+    colYear: 'Année',
+    breadcrumbLabel: 'Fil d’Ariane',
+    projectNavLabel: 'Autres projets',
+    ctaLabel: 'Prochaine étape',
+    kindProject: 'Projet',
+    kindExperience: 'Expérience',
+    kindEducation: 'Formation',
+    kindAward: 'Distinction',
+    kindEngagement: 'Engagement',
+    kindMedia: 'Intervention',
+    kindCertificate: 'Certificat',
   },
   en: {
     projectsLabel: 'Projects',
@@ -94,5 +108,20 @@ export default defineStrings({
     projectCtaButton: "Let's talk",
     backToProjects: 'All projects',
     coverAlt: (name: string) => `Generated visual for the ${name} project`,
+
+    projectNo: 'No.',
+    colProject: 'Project',
+    colBrief: 'In short',
+    colYear: 'Year',
+    breadcrumbLabel: 'Breadcrumb',
+    projectNavLabel: 'More projects',
+    ctaLabel: 'Next step',
+    kindProject: 'Project',
+    kindExperience: 'Experience',
+    kindEducation: 'Education',
+    kindAward: 'Award',
+    kindEngagement: 'Engagement',
+    kindMedia: 'Appearance',
+    kindCertificate: 'Certificate',
   },
 });

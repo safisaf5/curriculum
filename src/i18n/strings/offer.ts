@@ -9,7 +9,16 @@ export default defineStrings({
     servicesExamples: 'Exemples',
     servicesDeliverables: 'Livrables',
     servicesCta: 'Discuter de ce service',
-    servicesRelated: 'Projets liés',
+    servicesRelated: 'Déjà fait',
+    servicesListLabel: 'Choisir un service',
+    // Kind of a related entry (project, job, course...)
+    kindProject: 'Projet',
+    kindExperience: 'Expérience',
+    kindEducation: 'Formation',
+    kindMedia: 'Média',
+    kindAward: 'Distinction',
+    kindEngagement: 'Engagement',
+    kindCertificate: 'Certificat',
 
     // Media
     mediaLabel: 'Prise de parole & médias',
@@ -23,8 +32,12 @@ export default defineStrings({
     mediaTypeCivic: 'Engagement',
     mediaOpen: 'Voir',
 
-    // Philosophy
+    // Philosophy (the brand line stays in English in both languages)
     philosophyLabel: 'Philosophie',
+    philosophyTitle: 'Build. Learn. Improve.',
+    philosophyWordBuild: 'Build',
+    philosophyWordLearn: 'Learn',
+    philosophyWordImprove: 'Improve',
     philosophyBuild: 'Je comprends en construisant. Mon premier stage consistait à démonter des iPhones ; mon travail de maturité, à monter une montre automatique.',
     philosophyLearn: 'Mathématiques à l’EPFL, Scala à Genève, cinq langues : j’apprends ce dont le prochain projet a besoin, pas ce qui fait bien sur un CV.',
     philosophyImprove: 'Une réparation, un discours, une version de produit : tout est une itération. On mesure, on corrige, on recommence.',
@@ -36,7 +49,15 @@ export default defineStrings({
     servicesExamples: 'Examples',
     servicesDeliverables: 'Deliverables',
     servicesCta: 'Discuss this service',
-    servicesRelated: 'Related projects',
+    servicesRelated: 'Done before',
+    servicesListLabel: 'Choose a service',
+    kindProject: 'Project',
+    kindExperience: 'Experience',
+    kindEducation: 'Education',
+    kindMedia: 'Media',
+    kindAward: 'Award',
+    kindEngagement: 'Engagement',
+    kindCertificate: 'Certificate',
 
     mediaLabel: 'Speaking & media',
     mediaTitle: 'As comfortable at the mic as at the workbench.',
@@ -50,6 +71,10 @@ export default defineStrings({
     mediaOpen: 'Open',
 
     philosophyLabel: 'Philosophy',
+    philosophyTitle: 'Build. Learn. Improve.',
+    philosophyWordBuild: 'Build',
+    philosophyWordLearn: 'Learn',
+    philosophyWordImprove: 'Improve',
     philosophyBuild: 'I understand by building. My first internship was taking iPhones apart; my high school thesis was assembling an automatic watch.',
     philosophyLearn: 'Maths at EPFL, Scala in Geneva, five languages: I learn what the next project needs, not what looks good on a CV.',
     philosophyImprove: 'A repair, a speech, a product release: everything is an iteration. Measure, fix, go again.',

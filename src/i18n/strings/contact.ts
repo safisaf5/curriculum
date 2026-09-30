@@ -16,6 +16,8 @@ export default defineStrings({
     copyEmail: "Copier l'adresse e-mail",
     emailCopied: 'Adresse copiée',
     card: 'Carte de visite digitale',
+    vcard: 'Ajouter à mes contacts (vCard)',
+    localTime: 'Heure locale',
 
     // Form
     formTitle: 'Écrire un message',
@@ -47,6 +49,7 @@ export default defineStrings({
     errMessage: 'Votre message doit contenir au moins 20 caractères.',
     errTooLong: (max: number) => `${max} caractères maximum.`,
     required: 'obligatoire',
+    charCount: (n: number, max: number) => `${n} caractères sur ${max}`,
 
     // Footer
     footerTagline: 'Entrepreneur • AI • Technology',
@@ -73,6 +76,8 @@ export default defineStrings({
     copyEmail: 'Copy email address',
     emailCopied: 'Address copied',
     card: 'Digital business card',
+    vcard: 'Add to my contacts (vCard)',
+    localTime: 'Local time',
 
     formTitle: 'Send a message',
     name: 'Name',
@@ -103,6 +108,7 @@ export default defineStrings({
     errMessage: 'Your message needs at least 20 characters.',
     errTooLong: (max: number) => `${max} characters maximum.`,
     required: 'required',
+    charCount: (n: number, max: number) => `${n} of ${max} characters`,
 
     footerTagline: 'Entrepreneur • AI • Technology',
     footerNav: 'Navigation',
